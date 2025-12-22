@@ -40,6 +40,18 @@ class RetellService:
             # Optional but good defaults
             model="gpt-4o-mini",  # Fast and cost-effective
             begin_message=None,  # Let LLM generate dynamic greeting
+            # Add end_call function so agent can end calls automatically
+            general_tools=[
+                {
+                    "type": "end_call",
+                    "name": "end_call",
+                    "description": (
+                        "Use this tool when the user says goodbye, thanks, or indicates "
+                        "they want to end the call. Also use this when the conversation "
+                        "objective has been completed."
+                    ),
+                }
+            ],
         )
 
         # Step 2: Create the agent using the LLM
@@ -90,6 +102,18 @@ class RetellService:
                 start_speaker=DEFAULT_START_SPEAKER,
                 model="gpt-4o-mini",
                 begin_message=None,
+                # Add end_call function
+                general_tools=[
+                    {
+                        "type": "end_call",
+                        "name": "end_call",
+                        "description": (
+                            "Use this tool when the user says goodbye, thanks, or indicates "
+                            "they want to end the call. Also use this when the conversation "
+                            "objective has been completed."
+                        ),
+                    }
+                ],
             )
             update_data["response_engine"] = {"type": "retell-llm", "llm_id": llm.llm_id}
 
