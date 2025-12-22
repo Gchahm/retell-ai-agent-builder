@@ -13,10 +13,10 @@ async def retell_webhook(request: Request, background_tasks: BackgroundTasks):
     TODO: Extract and store transcript
     TODO: Trigger post-processing
     """
-    payload = await request.json()
+    _payload = await request.json()
 
     # TODO: Verify webhook signature
-    # verify_retell_signature(request.headers, payload)
+    # verify_retell_signature(request.headers, _payload)
 
     # TODO: Process different webhook events
     # - call.started

@@ -10,7 +10,9 @@ class Call(SQLModel, table=True):
     __tablename__ = "test_calls"
 
     id: Optional[int] = Field(default=None, primary_key=True)
-    agent_config_id: int = Field(foreign_key="agent_configurations.id")
+
+    # Retell agent ID (from Retell AI, not local database)
+    retell_agent_id: str = Field(index=True)
 
     # Call details
     driver_name: str

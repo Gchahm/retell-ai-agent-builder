@@ -6,7 +6,7 @@ from pydantic import BaseModel
 class CallCreate(BaseModel):
     """Schema for triggering a call."""
 
-    agent_config_id: int
+    retell_agent_id: str
     driver_name: str
     phone_number: str
     load_number: str
@@ -16,7 +16,7 @@ class CallResponse(BaseModel):
     """Schema for call response."""
 
     id: int
-    agent_config_id: int
+    retell_agent_id: str
     driver_name: str
     phone_number: str
     load_number: str

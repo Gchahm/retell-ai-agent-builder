@@ -1,4 +1,5 @@
 from retell import Retell
+from retell.types import AgentListResponse
 
 from app.config import get_settings
 
@@ -10,6 +11,25 @@ class RetellService:
 
     def __init__(self):
         self.client = Retell(api_key=settings.retell_api_key)
+
+    def list_agents(
+        self, limit: int = 1000, pagination_key: str | None = None
+    ) -> AgentListResponse:
+        """
+        List all agents from Retell AI.
+
+        Args:
+            limit: Number of agents to return (1-1000, default 1000)
+            pagination_key: Agent ID to continue fetching from (for pagination)
+
+        Returns:
+            AgentListResponse: List of AgentResponse objects from Retell SDK
+        """
+        params = {"limit": limit}
+        if pagination_key:
+            params["pagination_key"] = pagination_key
+
+        return self.client.agent.list(**params)
 
     def create_call(self, phone_number: str, agent_config: dict):
         """

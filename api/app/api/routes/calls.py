@@ -17,7 +17,7 @@ def trigger_call(call_data: CallCreate, session: SessionDep):
     """
     # Create call record
     db_call = Call(
-        agent_config_id=call_data.agent_config_id,
+        retell_agent_id=call_data.retell_agent_id,
         driver_name=call_data.driver_name,
         phone_number=call_data.phone_number,
         load_number=call_data.load_number,

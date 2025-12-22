@@ -1,63 +1,58 @@
-from fastapi import APIRouter, HTTPException
-from sqlmodel import select
+from typing import Annotated
 
-from app.api.deps import SessionDep
-from app.models import AgentConfig
-from app.schemas import AgentConfigCreate, AgentConfigResponse, AgentConfigUpdate
+from fastapi import APIRouter, Depends, HTTPException, Query
+from retell.types import AgentListResponse, AgentResponse
+
+from app.services.retell import RetellService
 
 router = APIRouter(prefix="/api/agent-configs", tags=["agent-configs"])
 
 
-@router.post("", response_model=AgentConfigResponse, status_code=201)
-def create_agent_config(config: AgentConfigCreate, session: SessionDep):
-    """Create a new agent configuration."""
-    db_config = AgentConfig.model_validate(config)
-    session.add(db_config)
-    session.commit()
-    session.refresh(db_config)
-    return db_config
+def get_retell_service() -> RetellService:
+    """Dependency to get RetellService instance."""
+    return RetellService()
 
 
-@router.get("", response_model=list[AgentConfigResponse])
-def list_agent_configs(session: SessionDep):
-    """List all agent configurations."""
-    configs = session.exec(select(AgentConfig)).all()
-    return configs
+RetellServiceDep = Annotated[RetellService, Depends(get_retell_service)]
 
 
-@router.get("/{config_id}", response_model=AgentConfigResponse)
-def get_agent_config(config_id: int, session: SessionDep):
-    """Get a specific agent configuration."""
-    config = session.get(AgentConfig, config_id)
-    if not config:
-        raise HTTPException(status_code=404, detail="Agent configuration not found")
-    return config
+@router.get("", response_model=AgentListResponse)
+def list_agent_configs(
+    retell_service: RetellServiceDep,
+    limit: int = Query(default=1000, ge=1, le=1000),
+    pagination_key: str | None = Query(default=None),
+):
+    """
+    List all agent configurations from Retell AI.
+
+    Args:
+        limit: Number of agents to return (1-1000, default 1000)
+        pagination_key: Agent ID to continue fetching from (for pagination)
+
+    Returns:
+        List of AgentResponse objects from Retell SDK
+    """
+    try:
+        return retell_service.list_agents(limit=limit, pagination_key=pagination_key)
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Failed to fetch agents from Retell: {str(e)}"
+        ) from e
 
 
-@router.patch("/{config_id}", response_model=AgentConfigResponse)
-def update_agent_config(config_id: int, updates: AgentConfigUpdate, session: SessionDep):
-    """Update an agent configuration."""
-    config = session.get(AgentConfig, config_id)
-    if not config:
-        raise HTTPException(status_code=404, detail="Agent configuration not found")
+@router.get("/{agent_id}", response_model=AgentResponse)
+def get_agent_config(agent_id: str, retell_service: RetellServiceDep):
+    """
+    Get a specific agent configuration from Retell AI.
 
-    update_data = updates.model_dump(exclude_unset=True)
-    for key, value in update_data.items():
-        setattr(config, key, value)
-
-    session.add(config)
-    session.commit()
-    session.refresh(config)
-    return config
+    Note: This endpoint requires implementing the get_agent method in RetellService.
+    """
+    # TODO: Implement get_agent in RetellService
+    raise HTTPException(
+        status_code=501,
+        detail="Get single agent not yet implemented. Use list endpoint with pagination.",
+    )
 
 
-@router.delete("/{config_id}", status_code=204)
-def delete_agent_config(config_id: int, session: SessionDep):
-    """Delete an agent configuration."""
-    config = session.get(AgentConfig, config_id)
-    if not config:
-        raise HTTPException(status_code=404, detail="Agent configuration not found")
-
-    session.delete(config)
-    session.commit()
-    return None
+# The following endpoints are deprecated as we're not storing agents locally anymore
+# Create, Update, and Delete should be done through Retell's dashboard or their API directly
