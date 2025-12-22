@@ -3,6 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, Query
 from retell.types import AgentListResponse, AgentResponse
 
+from app.schemas import AgentCreateRequest
 from app.services.retell import RetellService
 
 router = APIRouter(prefix="/api/agent-configs", tags=["agent-configs"])
@@ -14,6 +15,29 @@ def get_retell_service() -> RetellService:
 
 
 RetellServiceDep = Annotated[RetellService, Depends(get_retell_service)]
+
+
+@router.post("", response_model=AgentResponse, status_code=201)
+def create_agent_config(request: AgentCreateRequest, retell_service: RetellServiceDep):
+    """
+    Create a new agent configuration in Retell AI.
+
+    This is a light wrapper that creates an agent with sensible defaults.
+    You only need to provide the prompt text - all other configuration
+    (voice, model, responsiveness, etc.) is handled by our API.
+
+    Args:
+        request: Agent creation request with prompt and optional name
+
+    Returns:
+        AgentResponse: The created agent from Retell SDK
+    """
+    try:
+        return retell_service.create_agent(prompt=request.prompt, agent_name=request.agent_name)
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Failed to create agent in Retell: {str(e)}"
+        ) from e
 
 
 @router.get("", response_model=AgentListResponse)
@@ -54,5 +78,4 @@ def get_agent_config(agent_id: str, retell_service: RetellServiceDep):
     )
 
 
-# The following endpoints are deprecated as we're not storing agents locally anymore
-# Create, Update, and Delete should be done through Retell's dashboard or their API directly
+# Update and Delete should be done through Retell's dashboard or their API directly
