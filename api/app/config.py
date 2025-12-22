@@ -24,6 +24,14 @@ class Settings(BaseSettings):
     port: int = 8000
     reload: bool = True
 
+    # Webhook
+    webhook_base_url: str = "http://localhost:8000"
+
+    @property
+    def webhook_url(self) -> str:
+        """Full webhook URL for Retell."""
+        return f"{self.webhook_base_url}/api/webhooks/retell"
+
 
 @lru_cache
 def get_settings() -> Settings:

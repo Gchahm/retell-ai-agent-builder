@@ -54,6 +54,8 @@ class RetellService:
             interruption_sensitivity=0.5,
             enable_backchannel=True,
             backchannel_frequency=0.3,
+            # Webhook configuration
+            webhook_url=settings.webhook_url,
         )
 
         return agent

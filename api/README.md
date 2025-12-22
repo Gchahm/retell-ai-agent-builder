@@ -90,6 +90,10 @@ source .venv/bin/activate
 fastapi dev app/main.py
 ```
 
+```bash
+ngrok http http://localhost:8000
+```
+
 The server will start at:
 - **API Base**: http://localhost:8000
 - **Interactive Docs (Swagger)**: http://localhost:8000/docs
