@@ -13,3 +13,17 @@ class AgentCreateRequest(BaseModel):
         default=None,
         description="Optional name for the agent (for internal reference)",
     )
+
+
+class AgentUpdateRequest(BaseModel):
+    """Minimal request schema for updating an existing agent via our API."""
+
+    prompt: str | None = Field(
+        default=None,
+        description="Updated system prompt (creates a new LLM and updates the agent)",
+        min_length=1,
+    )
+    agent_name: str | None = Field(
+        default=None,
+        description="Updated name for the agent (for internal reference)",
+    )

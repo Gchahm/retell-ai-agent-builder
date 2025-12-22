@@ -58,6 +58,48 @@ class RetellService:
 
         return agent
 
+    def update_agent(
+        self,
+        agent_id: str,
+        prompt: str | None = None,
+        agent_name: str | None = None,
+    ) -> AgentResponse:
+        """
+        Update an existing agent.
+
+        This is a light wrapper that allows updating:
+        - The prompt (creates a new LLM and updates the agent's response_engine)
+        - The agent name
+
+        Args:
+            agent_id: The ID of the agent to update
+            prompt: New system prompt (optional, creates new LLM if provided)
+            agent_name: New agent name (optional)
+
+        Returns:
+            AgentResponse: The updated agent from Retell SDK
+        """
+        update_data = {}
+
+        # If prompt is provided, create a new LLM and update response_engine
+        if prompt is not None:
+            llm = self.client.llm.create(
+                general_prompt=prompt,
+                start_speaker=DEFAULT_START_SPEAKER,
+                model="gpt-4o-mini",
+                begin_message=None,
+            )
+            update_data["response_engine"] = {"type": "retell-llm", "llm_id": llm.llm_id}
+
+        # If agent_name is provided, update it
+        if agent_name is not None:
+            update_data["agent_name"] = agent_name
+
+        # Call the Retell API to update the agent
+        agent = self.client.agent.update(agent_id, **update_data)
+
+        return agent
+
     def list_agents(
         self, limit: int = 1000, pagination_key: str | None = None
     ) -> AgentListResponse:

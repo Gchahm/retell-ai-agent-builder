@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, Query
 from retell.types import AgentListResponse, AgentResponse
 
-from app.schemas import AgentCreateRequest
+from app.schemas import AgentCreateRequest, AgentUpdateRequest
 from app.services.retell import RetellService
 
 router = APIRouter(prefix="/api/agent-configs", tags=["agent-configs"])
@@ -78,4 +78,41 @@ def get_agent_config(agent_id: str, retell_service: RetellServiceDep):
     )
 
 
-# Update and Delete should be done through Retell's dashboard or their API directly
+@router.patch("/{agent_id}", response_model=AgentResponse)
+def update_agent_config(
+    agent_id: str, request: AgentUpdateRequest, retell_service: RetellServiceDep
+):
+    """
+    Update an existing agent configuration in Retell AI.
+
+    This is a light wrapper that allows updating:
+    - The prompt (creates a new LLM and updates the agent's response_engine)
+    - The agent name
+
+    At least one field must be provided.
+
+    Args:
+        agent_id: The ID of the agent to update
+        request: Agent update request with optional prompt and/or agent_name
+
+    Returns:
+        AgentResponse: The updated agent from Retell SDK
+    """
+    # Validate that at least one field is provided
+    if request.prompt is None and request.agent_name is None:
+        raise HTTPException(
+            status_code=422,
+            detail="At least one field (prompt or agent_name) must be provided for update",
+        )
+
+    try:
+        return retell_service.update_agent(
+            agent_id=agent_id, prompt=request.prompt, agent_name=request.agent_name
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Failed to update agent in Retell: {str(e)}"
+        ) from e
+
+
+# Delete should be done through Retell's dashboard or their API directly
