@@ -3,18 +3,13 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, Query
 from retell.types import AgentListResponse, AgentResponse
 
+from app.api.deps import RetellServiceDep
 from app.schemas import AgentCreateRequest, AgentGetResponse, AgentUpdateRequest
 from app.services.retell import RetellService
 
 router = APIRouter(prefix="/api/agent-configs", tags=["agent-configs"])
 
 
-def get_retell_service() -> RetellService:
-    """Dependency to get RetellService instance."""
-    return RetellService()
-
-
-RetellServiceDep = Annotated[RetellService, Depends(get_retell_service)]
 
 
 @router.post("", response_model=AgentResponse, status_code=201)

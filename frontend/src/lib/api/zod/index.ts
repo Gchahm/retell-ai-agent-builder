@@ -5,7 +5,7 @@ export { agentUpdateRequestSchema } from "./agentUpdateRequestSchema";
 export { callCreateSchema } from "./callCreateSchema";
 export { callResponseSchema } from "./callResponseSchema";
 export { createAgentConfigApiAgentConfigsPost201Schema, createAgentConfigApiAgentConfigsPost422Schema, createAgentConfigApiAgentConfigsPostMutationRequestSchema, createAgentConfigApiAgentConfigsPostMutationResponseSchema } from "./createAgentConfigApiAgentConfigsPostSchema";
-export { createWebCallApiWebCallsPost201Schema, createWebCallApiWebCallsPost422Schema, createWebCallApiWebCallsPostMutationRequestSchema, createWebCallApiWebCallsPostMutationResponseSchema } from "./createWebCallApiWebCallsPostSchema";
+export { createWebCallApiCallswebcallPost201Schema, createWebCallApiCallswebcallPost422Schema, createWebCallApiCallswebcallPostMutationRequestSchema, createWebCallApiCallswebcallPostMutationResponseSchema } from "./createWebCallApiCallswebcallPostSchema";
 export { getAgentConfigApiAgentConfigsAgentIdGetPathParamsSchema, getAgentConfigApiAgentConfigsAgentIdGet200Schema, getAgentConfigApiAgentConfigsAgentIdGet422Schema, getAgentConfigApiAgentConfigsAgentIdGetQueryResponseSchema } from "./getAgentConfigApiAgentConfigsAgentIdGetSchema";
 export { getCallApiCallsCallIdGetPathParamsSchema, getCallApiCallsCallIdGet200Schema, getCallApiCallsCallIdGet422Schema, getCallApiCallsCallIdGetQueryResponseSchema } from "./getCallApiCallsCallIdGetSchema";
 export { healthCheckHealthGet200Schema, healthCheckHealthGetQueryResponseSchema } from "./healthCheckHealthGetSchema";
@@ -23,7 +23,6 @@ export { responseEngineResponseEngineCustomLmSchema } from "./responseEngineResp
 export { responseEngineResponseEngineRetellLmSchema } from "./responseEngineResponseEngineRetellLmSchema";
 export { retellWebhookApiWebhooksRetellPost204Schema, retellWebhookApiWebhooksRetellPostMutationResponseSchema } from "./retellWebhookApiWebhooksRetellPostSchema";
 export { rootGet200Schema, rootGetQueryResponseSchema } from "./rootGetSchema";
-export { triggerCallApiCallsTriggerPost201Schema, triggerCallApiCallsTriggerPost422Schema, triggerCallApiCallsTriggerPostMutationRequestSchema, triggerCallApiCallsTriggerPostMutationResponseSchema } from "./triggerCallApiCallsTriggerPostSchema";
 export { updateAgentConfigApiAgentConfigsAgentIdPatchPathParamsSchema, updateAgentConfigApiAgentConfigsAgentIdPatch200Schema, updateAgentConfigApiAgentConfigsAgentIdPatch422Schema, updateAgentConfigApiAgentConfigsAgentIdPatchMutationRequestSchema, updateAgentConfigApiAgentConfigsAgentIdPatchMutationResponseSchema } from "./updateAgentConfigApiAgentConfigsAgentIdPatchSchema";
 export { userDtmfOptionsSchema } from "./userDtmfOptionsSchema";
 export { validationErrorSchema } from "./validationErrorSchema";
@@ -32,4 +31,3 @@ export { voicemailOptionActionVoicemailActionHangupSchema } from "./voicemailOpt
 export { voicemailOptionActionVoicemailActionPromptSchema } from "./voicemailOptionActionVoicemailActionPromptSchema";
 export { voicemailOptionActionVoicemailActionStaticTextSchema } from "./voicemailOptionActionVoicemailActionStaticTextSchema";
 export { voicemailOptionSchema } from "./voicemailOptionSchema";
-export { webCallCreateRequestSchema } from "./webCallCreateRequestSchema";

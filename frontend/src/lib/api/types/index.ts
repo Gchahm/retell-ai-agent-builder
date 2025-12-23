@@ -5,7 +5,7 @@ export type { AgentUpdateRequest } from "./AgentUpdateRequest";
 export type { CallCreate } from "./CallCreate";
 export type { CallResponse } from "./CallResponse";
 export type { CreateAgentConfigApiAgentConfigsPost201, CreateAgentConfigApiAgentConfigsPost422, CreateAgentConfigApiAgentConfigsPostMutationRequest, CreateAgentConfigApiAgentConfigsPostMutationResponse, CreateAgentConfigApiAgentConfigsPostMutation } from "./CreateAgentConfigApiAgentConfigsPost";
-export type { CreateWebCallApiWebCallsPost201, CreateWebCallApiWebCallsPost422, CreateWebCallApiWebCallsPostMutationRequest, CreateWebCallApiWebCallsPostMutationResponse, CreateWebCallApiWebCallsPostMutation } from "./CreateWebCallApiWebCallsPost";
+export type { CreateWebCallApiCallswebcallPost201, CreateWebCallApiCallswebcallPost422, CreateWebCallApiCallswebcallPostMutationRequest, CreateWebCallApiCallswebcallPostMutationResponse, CreateWebCallApiCallswebcallPostMutation } from "./CreateWebCallApiCallswebcallPost";
 export type { GetAgentConfigApiAgentConfigsAgentIdGetPathParams, GetAgentConfigApiAgentConfigsAgentIdGet200, GetAgentConfigApiAgentConfigsAgentIdGet422, GetAgentConfigApiAgentConfigsAgentIdGetQueryResponse, GetAgentConfigApiAgentConfigsAgentIdGetQuery } from "./GetAgentConfigApiAgentConfigsAgentIdGet";
 export type { GetCallApiCallsCallIdGetPathParams, GetCallApiCallsCallIdGet200, GetCallApiCallsCallIdGet422, GetCallApiCallsCallIdGetQueryResponse, GetCallApiCallsCallIdGetQuery } from "./GetCallApiCallsCallIdGet";
 export type { HealthCheckHealthGet200, HealthCheckHealthGetQueryResponse, HealthCheckHealthGetQuery } from "./HealthCheckHealthGet";
@@ -23,7 +23,6 @@ export type { ResponseEngineResponseEngineCustomLm } from "./ResponseEngineRespo
 export type { ResponseEngineResponseEngineRetellLm } from "./ResponseEngineResponseEngineRetellLm";
 export type { RetellWebhookApiWebhooksRetellPost204, RetellWebhookApiWebhooksRetellPostMutationResponse, RetellWebhookApiWebhooksRetellPostMutation } from "./RetellWebhookApiWebhooksRetellPost";
 export type { RootGet200, RootGetQueryResponse, RootGetQuery } from "./RootGet";
-export type { TriggerCallApiCallsTriggerPost201, TriggerCallApiCallsTriggerPost422, TriggerCallApiCallsTriggerPostMutationRequest, TriggerCallApiCallsTriggerPostMutationResponse, TriggerCallApiCallsTriggerPostMutation } from "./TriggerCallApiCallsTriggerPost";
 export type { UpdateAgentConfigApiAgentConfigsAgentIdPatchPathParams, UpdateAgentConfigApiAgentConfigsAgentIdPatch200, UpdateAgentConfigApiAgentConfigsAgentIdPatch422, UpdateAgentConfigApiAgentConfigsAgentIdPatchMutationRequest, UpdateAgentConfigApiAgentConfigsAgentIdPatchMutationResponse, UpdateAgentConfigApiAgentConfigsAgentIdPatchMutation } from "./UpdateAgentConfigApiAgentConfigsAgentIdPatch";
 export type { UserDtmfOptions } from "./UserDtmfOptions";
 export type { ValidationError } from "./ValidationError";
@@ -32,7 +31,6 @@ export type { VoicemailOptionActionVoicemailActionBridgeTransfer } from "./Voice
 export type { VoicemailOptionActionVoicemailActionHangup } from "./VoicemailOptionActionVoicemailActionHangup";
 export type { VoicemailOptionActionVoicemailActionPrompt } from "./VoicemailOptionActionVoicemailActionPrompt";
 export type { VoicemailOptionActionVoicemailActionStaticText } from "./VoicemailOptionActionVoicemailActionStaticText";
-export type { WebCallCreateRequest } from "./WebCallCreateRequest";
 export { agentResponseAmbientSoundEnum } from "./AgentResponse";
 export { agentResponseDataStorageSettingEnum } from "./AgentResponse";
 export { agentResponseDenoisingModeEnum } from "./AgentResponse";

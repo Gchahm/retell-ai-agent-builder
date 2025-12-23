@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes import agent_configs, calls, web_calls, webhooks
+from app.api.routes import agent_configs, calls, webhooks
 from app.database import create_db_and_tables
 
 
@@ -35,7 +35,6 @@ app.add_middleware(
 # Include routers
 app.include_router(agent_configs.router)
 app.include_router(calls.router)
-app.include_router(web_calls.router)
 app.include_router(webhooks.router)
 
 
