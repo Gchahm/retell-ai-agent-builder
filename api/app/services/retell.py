@@ -2,6 +2,7 @@ from retell import Retell
 from retell.types import AgentListResponse, AgentResponse
 
 from app.config import get_settings
+from app.services.prompts import build_full_prompt
 
 settings = get_settings()
 
@@ -9,7 +10,38 @@ settings = get_settings()
 DEFAULT_VOICE_ID = "11labs-Adrian"  # Professional male voice
 DEFAULT_VOICE_MODEL = "eleven_turbo_v2"  # Fast, high-quality
 DEFAULT_LANGUAGE = "en-US"
-DEFAULT_START_SPEAKER = "user"  # User initiates the conversation
+DEFAULT_START_SPEAKER = "agent"  # Agent initiates the conversation
+
+# Voice tuning
+DEFAULT_VOICE_TEMPERATURE = 0.8  # Slightly expressive [0-2]
+DEFAULT_VOICE_SPEED = 1.0  # Normal pace [0.5-2]
+
+# Ambient sound for realism
+DEFAULT_AMBIENT_SOUND = "call-center"
+DEFAULT_AMBIENT_SOUND_VOLUME = 0.3  # Subtle background [0-2]
+
+# Interaction behavior
+DEFAULT_RESPONSIVENESS = 0.8  # Fast reactions [0-1]
+DEFAULT_INTERRUPTION_SENSITIVITY = 0.6  # Moderately interruptible [0-1]
+DEFAULT_BACKCHANNEL_FREQUENCY = 0.5  # Frequent active listening [0-1]
+DEFAULT_BACKCHANNEL_WORDS = ["uh-huh", "got it", "okay", "right", "I see", "mm-hmm"]
+
+# Reminder settings for unresponsive drivers
+DEFAULT_REMINDER_TRIGGER_MS = 8000  # Prompt after 8s silence
+DEFAULT_REMINDER_MAX_COUNT = 2  # Max reminders before giving up
+
+# Call management
+DEFAULT_MAX_CALL_DURATION_MS = 300000  # 5 minute max
+DEFAULT_END_CALL_AFTER_SILENCE_MS = 15000  # End after 15s silence
+DEFAULT_BEGIN_MESSAGE_DELAY_MS = 500  # Half-second natural delay
+
+# Speech recognition - logistics vocabulary
+DEFAULT_BOOSTED_KEYWORDS = [
+    "POD", "BOL", "lumper", "detention", "ETA",
+    "mile marker", "load number", "dispatch",
+    "blowout", "breakdown", "accident",
+]
+DEFAULT_DENOISING_MODE = "noise-cancellation"  # For noisy truck environments
 
 
 class RetellService:
@@ -23,25 +55,32 @@ class RetellService:
         Create a new agent with the specified prompt.
 
         This is a light wrapper around the Retell SDK that:
-        1. Creates an LLM with the provided prompt
+        1. Creates an LLM with the provided prompt (plus system prefix)
         2. Creates an agent using that LLM with sensible defaults
         3. Configures structured data extraction for logistics tracking
 
+        The prompt provided by the admin is automatically combined with
+        system-level instructions for style, emergency handling, and
+        difficult situation management.
+
         Args:
-            prompt: The system prompt defining agent behavior
+            prompt: The admin's custom prompt (identity and conversation flow)
             agent_name: Optional name for the agent (for internal reference)
 
         Returns:
             AgentResponse: The created agent from Retell SDK
         """
-        # Step 1: Create the LLM with the user's prompt
+        # Combine system prompt prefix with admin's custom prompt
+        full_prompt = build_full_prompt(prompt)
+
+        # Step 1: Create the LLM with the full prompt
         llm = self.client.llm.create(
-            general_prompt=prompt,
+            general_prompt=full_prompt,
             start_speaker=DEFAULT_START_SPEAKER,
             # Optional but good defaults
             model="gpt-4o-mini",  # Fast and cost-effective
             begin_message=None,  # Let LLM generate dynamic greeting
-            # Add end_call function so agent can end calls automatically
+            # Add end_call and transfer_call functions
             general_tools=[
                 {
                     "type": "end_call",
@@ -51,7 +90,7 @@ class RetellService:
                         "they want to end the call. Also use this when the conversation "
                         "objective has been completed."
                     ),
-                }
+                },
             ],
             # Configure structured data extraction for post-call analysis
         )
@@ -59,17 +98,78 @@ class RetellService:
         # Step 2: Create the agent using the LLM
         agent = self.client.agent.create(
             agent_name=agent_name,
+            response_engine={"type": "retell-llm", "llm_id": llm.llm_id},
+            # Voice settings
             voice_id=DEFAULT_VOICE_ID,
             voice_model=DEFAULT_VOICE_MODEL,
+            voice_temperature=DEFAULT_VOICE_TEMPERATURE,
+            voice_speed=DEFAULT_VOICE_SPEED,
+            # Ambient sound for realism
+            ambient_sound=DEFAULT_AMBIENT_SOUND,
+            ambient_sound_volume=DEFAULT_AMBIENT_SOUND_VOLUME,
+            # Interaction behavior
             language=DEFAULT_LANGUAGE,
-            response_engine={"type": "retell-llm", "llm_id": llm.llm_id},
-            # Good defaults for responsiveness
-            responsiveness=0.7,
-            interruption_sensitivity=0.5,
+            responsiveness=DEFAULT_RESPONSIVENESS,
+            interruption_sensitivity=DEFAULT_INTERRUPTION_SENSITIVITY,
             enable_backchannel=True,
-            backchannel_frequency=0.3,
+            backchannel_frequency=DEFAULT_BACKCHANNEL_FREQUENCY,
+            backchannel_words=DEFAULT_BACKCHANNEL_WORDS,
+            # Reminder settings for unresponsive drivers
+            reminder_trigger_ms=DEFAULT_REMINDER_TRIGGER_MS,
+            reminder_max_count=DEFAULT_REMINDER_MAX_COUNT,
+            # Call management
+            max_call_duration_ms=DEFAULT_MAX_CALL_DURATION_MS,
+            end_call_after_silence_ms=DEFAULT_END_CALL_AFTER_SILENCE_MS,
+            begin_message_delay_ms=DEFAULT_BEGIN_MESSAGE_DELAY_MS,
+            # Speech recognition
+            boosted_keywords=DEFAULT_BOOSTED_KEYWORDS,
+            denoising_mode=DEFAULT_DENOISING_MODE,
             # Webhook configuration
             webhook_url=settings.webhook_url,
+            # Post-call analysis data extraction for logistics tracking
+            post_call_analysis_data=[
+                {
+                    "type": "string",
+                    "name": "call_outcome",
+                    "description": "The type of call update provided by the driver.",
+                    "examples": ["In-Transit Update", "Arrival Confirmation"],
+                },
+                {
+                    "type": "string",
+                    "name": "driver_status",
+                    "description": "The current status of the driver.",
+                    "examples": ["Driving", "Delayed", "Arrived", "Unloading"],
+                },
+                {
+                    "type": "string",
+                    "name": "current_location",
+                    "description": "The driver's current location as described.",
+                    "examples": ["I-10 near Indio, CA", "Truck stop in Barstow"],
+                },
+                {
+                    "type": "string",
+                    "name": "eta",
+                    "description": "The estimated time of arrival provided by the driver.",
+                    "examples": ["Tomorrow, 8:00 AM", "In 2 hours", "3:30 PM today"],
+                },
+                {
+                    "type": "string",
+                    "name": "delay_reason",
+                    "description": "The reason for any delay, or None if no delay.",
+                    "examples": ["Heavy Traffic", "Weather", "Mechanical Issue", "None"],
+                },
+                {
+                    "type": "string",
+                    "name": "unloading_status",
+                    "description": "The unloading status at destination, or N/A if not applicable.",
+                    "examples": ["In Door 42", "Waiting for Lumper", "Detention", "N/A"],
+                },
+                {
+                    "type": "boolean",
+                    "name": "pod_reminder_acknowledged",
+                    "description": "Whether the driver acknowledged the POD reminder.",
+                },
+            ],
         )
 
         return agent
@@ -87,9 +187,13 @@ class RetellService:
         - The prompt (creates a new LLM and updates the agent's response_engine)
         - The agent name
 
+        The prompt provided by the admin is automatically combined with
+        system-level instructions for style, emergency handling, and
+        difficult situation management.
+
         Args:
             agent_id: The ID of the agent to update
-            prompt: New system prompt (optional, creates new LLM if provided)
+            prompt: New custom prompt (optional, creates new LLM if provided)
             agent_name: New agent name (optional)
 
         Returns:
@@ -99,12 +203,13 @@ class RetellService:
 
         # If prompt is provided, create a new LLM and update response_engine
         if prompt is not None:
+            full_prompt = build_full_prompt(prompt)
             llm = self.client.llm.create(
-                general_prompt=prompt,
+                general_prompt=full_prompt,
                 start_speaker=DEFAULT_START_SPEAKER,
                 model="gpt-4o-mini",
                 begin_message=None,
-                # Add end_call function
+                # Add end_call and transfer_call functions
                 general_tools=[
                     {
                         "type": "end_call",
@@ -114,7 +219,7 @@ class RetellService:
                             "they want to end the call. Also use this when the conversation "
                             "objective has been completed."
                         ),
-                    }
+                    },
                 ],
             )
             update_data["response_engine"] = {"type": "retell-llm", "llm_id": llm.llm_id}
