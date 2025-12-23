@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router'
 import { AgentConfigsList } from '@/routes'
 import { AgentConfigNew } from './routes/new.tsx'
+import { AgentConfigEdit } from './routes/edit.tsx'
 
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
                     <Routes>
                         <Route path="/" element={<AgentConfigsList />} />
                         <Route path="/new" element={<AgentConfigNew />} />
+                        <Route path="/edit/:agentId" element={<AgentConfigEdit />} />
                     </Routes>
                 </main>
             </div>

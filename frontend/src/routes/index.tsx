@@ -28,7 +28,7 @@ export function AgentConfigsList() {
                 <div className="text-center py-12">
                     <p className="text-muted-foreground mb-4">No agent configurations yet</p>
                     <Button asChild>
-                        <Link to="/agent-configs/new">Create your first configuration</Link>
+                        <Link to="/new">Create your first configuration</Link>
                     </Button>
                 </div>
             ) : (
@@ -46,7 +46,7 @@ export function AgentConfigsList() {
                                 <td className="p-4 font-medium">{config.agent_name}</td>
                                 <td className="p-4 text-right space-x-2">
                                     <Button variant="ghost" size="sm" asChild>
-                                        <Link to={`/agent-configs/${config.agent_id}`}>
+                                        <Link to={`/edit/${config.agent_id}`}>
                                             <Edit className="h-4 w-4" />
                                         </Link>
                                     </Button>
