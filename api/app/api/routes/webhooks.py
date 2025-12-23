@@ -1,4 +1,7 @@
+import json
 import logging
+from datetime import datetime
+from pathlib import Path
 from typing import Literal
 
 from fastapi import APIRouter, BackgroundTasks, HTTPException, Request
@@ -7,9 +10,14 @@ from sqlmodel import select
 
 from app.api.deps import SessionDep
 from app.models import Call, CallResult
+from app.services.post_processing import PostProcessingService
 
 router = APIRouter(prefix="/api/webhooks", tags=["webhooks"])
 logger = logging.getLogger(__name__)
+
+# Directory for storing webhook payloads
+WEBHOOK_LOGS_DIR = Path("webhook_logs")
+WEBHOOK_LOGS_DIR.mkdir(exist_ok=True)
 
 
 class WebhookPayload(BaseModel):
@@ -66,6 +74,20 @@ def process_webhook(payload: WebhookPayload, session: SessionDep):
     if not retell_call_id:
         logger.error(f"No call_id in webhook payload for event: {event}")
         return
+
+    # Save payload to JSON file for debugging/inspection
+    # TODO: REMOVE - this is a temporary dev log remove later
+    try:
+        timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+        filename = f"{timestamp}_{retell_call_id}_{event}.json"
+        filepath = WEBHOOK_LOGS_DIR / filename
+
+        with open(filepath, "w") as f:
+            json.dump(payload.model_dump(), f, indent=2, default=str)
+
+        logger.info(f"Saved webhook payload to {filepath}")
+    except Exception as e:
+        logger.error(f"Failed to save webhook payload: {e}")
 
     # Find our Call record by retell_call_id
     statement = select(Call).where(Call.retell_call_id == retell_call_id)
