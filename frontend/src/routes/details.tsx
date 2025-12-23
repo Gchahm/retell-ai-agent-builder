@@ -4,6 +4,8 @@ import { useGetAgentConfigApiAgentConfigsAgentIdGet } from '@/lib/api'
 import { Button } from '@/components/ui/button'
 import { Edit, ArrowLeft } from 'lucide-react'
 import { WebCallButton } from '@/components/web-call-button'
+import { AgentInfoCard } from '@/components/agent-info-card'
+import { CallHistory } from '@/components/call-history'
 
 export function AgentConfigDetails() {
     const navigate = useNavigate()
@@ -50,33 +52,19 @@ export function AgentConfigDetails() {
                 </div>
             }
         >
-            <div className="max-w-2xl space-y-6">
+            <div className="space-y-6">
                 <Button variant="ghost" onClick={() => navigate('/')}>
                     <ArrowLeft className="mr-2 h-4 w-4" />
                     Back to List
                 </Button>
 
-                <div className="space-y-6 border rounded-lg p-6">
-                    <div>
-                        <h3 className="text-sm font-medium text-muted-foreground mb-2">Agent Name</h3>
-                        <p className="text-lg">
-                            {data.name || <span className="italic text-muted-foreground">No name set</span>}
-                        </p>
-                    </div>
-
-                    <div>
-                        <h3 className="text-sm font-medium text-muted-foreground mb-2">System Prompt</h3>
-                        <div className="bg-muted rounded-md p-4">
-                            <pre className="whitespace-pre-wrap font-mono text-sm">
-                                {data.prompt}
-                            </pre>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h3 className="text-sm font-medium text-muted-foreground mb-2">Agent ID</h3>
-                        <p className="text-sm font-mono">{data.agent_id}</p>
-                    </div>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <AgentInfoCard
+                        name={data.name}
+                        prompt={data.prompt}
+                        agentId={data.agent_id}
+                    />
+                    <CallHistory agentId={data.agent_id} />
                 </div>
             </div>
         </PageLayout>
