@@ -1,55 +1,62 @@
 import {Link} from 'react-router'
-import {PageLayout} from '@/components/layout/page-layout'
-import {Settings, Phone, FileText} from 'lucide-react'
+import {PageLayout} from '@/components/layout/page-layout.tsx'
+import {Button} from '@/components/ui/button.tsx'
+import {Edit, Plus} from 'lucide-react'
+import {useListAgentConfigsApiAgentConfigsGet} from '@/lib/api/hooks/agent-configs'
+import type {AgentResponse} from "@/lib/api";
 
-export function Dashboard() {
+export function AgentConfigsList() {
+    const { data, isPending, error } = useListAgentConfigsApiAgentConfigsGet()
+
+    if (isPending) return <div>Loading...</div>
+    if (error) return <div>Error: {error.message}</div>
+
     return (
         <PageLayout
-            title="AI Voice Agent Dashboard"
-            description="Configure agents, trigger test calls, and review results"
+            title="Agent Configurations"
+            description="Manage your AI voice agent configurations"
+            actions={
+                <Button asChild>
+                    <Link to="/new">
+                        <Plus className="mr-2 h-4 w-4" />
+                        New Configuration
+                    </Link>
+                </Button>
+            }
         >
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <DashboardCard
-                    title="Agent Configurations"
-                    description="Create and manage AI voice agent configurations"
-                    icon={<Settings className="h-8 w-8"/>}
-                    href="/agent-configs"
-                />
-                <DashboardCard
-                    title="Test Call"
-                    description="Trigger a test call to a driver"
-                    icon={<Phone className="h-8 w-8"/>}
-                    href="/test-call"
-                />
-                <DashboardCard
-                    title="Call Results"
-                    description="View call transcripts and structured data"
-                    icon={<FileText className="h-8 w-8"/>}
-                    href="/results"
-                />
-            </div>
+            {data.length === 0 ? (
+                <div className="text-center py-12">
+                    <p className="text-muted-foreground mb-4">No agent configurations yet</p>
+                    <Button asChild>
+                        <Link to="/agent-configs/new">Create your first configuration</Link>
+                    </Button>
+                </div>
+            ) : (
+                <div className="border rounded-lg">
+                    <table className="w-full">
+                        <thead className="border-b bg-muted/50">
+                        <tr>
+                            <th className="text-left p-4 font-medium">Name</th>
+                            <th className="text-right p-4 font-medium">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {data.map((config: AgentResponse) => (
+                            <tr key={config.agent_id} className="border-b last:border-0 hover:bg-muted/50">
+                                <td className="p-4 font-medium">{config.agent_name}</td>
+                                <td className="p-4 text-right space-x-2">
+                                    <Button variant="ghost" size="sm" asChild>
+                                        <Link to={`/agent-configs/${config.agent_id}`}>
+                                            <Edit className="h-4 w-4" />
+                                        </Link>
+                                    </Button>
+                                </td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                </div>
+            )}
         </PageLayout>
-    )
-}
-
-function DashboardCard({
-                           title,
-                           description,
-                           icon,
-                           href,
-                       }: {
-    title: string
-    description: string
-    icon: React.ReactNode
-    href: string
-}) {
-    return (
-        <Link to={href}>
-            <div className="border rounded-lg p-6 hover:border-primary transition-colors cursor-pointer">
-                <div className="mb-4 text-primary">{icon}</div>
-                <h3 className="text-xl font-semibold mb-2">{title}</h3>
-                <p className="text-muted-foreground text-sm">{description}</p>
-            </div>
-        </Link>
     )
 }
