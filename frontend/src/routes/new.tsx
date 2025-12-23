@@ -9,8 +9,8 @@ export function AgentConfigNew() {
 
     const handleSubmit = async (data: AgentConfigFormData) => {
         try {
-            await createMutation.mutateAsync({ data })
-            navigate('/agent-configs')
+            const result = await createMutation.mutateAsync({ data })
+            navigate(`/details/${result.agent_id}`)
         } catch (error) {
             console.error('Failed to create config:', error)
         }

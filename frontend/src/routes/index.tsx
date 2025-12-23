@@ -43,7 +43,11 @@ export function AgentConfigsList() {
                         <tbody>
                         {data.map((config: AgentResponse) => (
                             <tr key={config.agent_id} className="border-b last:border-0 hover:bg-muted/50">
-                                <td className="p-4 font-medium">{config.agent_name}</td>
+                                <td className="p-4 font-medium">
+                                    <Link to={`/details/${config.agent_id}`} className="hover:underline">
+                                        {config.agent_name || 'Unnamed Agent'}
+                                    </Link>
+                                </td>
                                 <td className="p-4 text-right space-x-2">
                                     <Button variant="ghost" size="sm" asChild>
                                         <Link to={`/edit/${config.agent_id}`}>

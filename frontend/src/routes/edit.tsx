@@ -29,7 +29,7 @@ export function AgentConfigEdit() {
                 agent_id: agentId,
                 data,
             })
-            navigate('/agent-configs')
+            navigate(`/details/${agentId}`)
         } catch (error) {
             console.error('Failed to update config:', error)
         }
