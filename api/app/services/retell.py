@@ -25,6 +25,7 @@ class RetellService:
         This is a light wrapper around the Retell SDK that:
         1. Creates an LLM with the provided prompt
         2. Creates an agent using that LLM with sensible defaults
+        3. Configures structured data extraction for logistics tracking
 
         Args:
             prompt: The system prompt defining agent behavior
@@ -51,6 +52,53 @@ class RetellService:
                         "objective has been completed."
                     ),
                 }
+            ],
+            # Configure structured data extraction for post-call analysis
+            extraction_fields=[
+                {
+                    "name": "call_outcome",
+                    "type": "string",
+                    "enum": ["In-Transit Update", "Arrival Confirmation"],
+                    "description": "The primary outcome/purpose of the call",
+                },
+                {
+                    "name": "driver_status",
+                    "type": "string",
+                    "enum": ["Driving", "Delayed", "Arrived", "Unloading"],
+                    "description": "Current status of the driver",
+                },
+                {
+                    "name": "current_location",
+                    "type": "string",
+                    "description": "Driver's current location (e.g., 'I-10 near Indio, CA')",
+                },
+                {
+                    "name": "eta",
+                    "type": "string",
+                    "description": "Estimated time of arrival (e.g., 'Tomorrow, 8:00 AM')",
+                },
+                {
+                    "name": "delay_reason",
+                    "type": "string",
+                    "description": (
+                        "Reason for any delay (e.g., 'Heavy Traffic', 'Weather', 'None')"
+                    ),
+                },
+                {
+                    "name": "unloading_status",
+                    "type": "string",
+                    "description": (
+                        "Current unloading status "
+                        "(e.g., 'In Door 42', 'Waiting for Lumper', 'Detention', 'N/A')"
+                    ),
+                },
+                {
+                    "name": "pod_reminder_acknowledged",
+                    "type": "boolean",
+                    "description": (
+                        "Whether the driver acknowledged the POD (Proof of Delivery) reminder"
+                    ),
+                },
             ],
         )
 
