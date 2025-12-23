@@ -193,6 +193,18 @@ class RetellService:
 
         return self.client.agent.list(**params)
 
+    def get_agent(self, agent_id: str) -> AgentResponse:
+        """
+        Get a specific agent from Retell AI.
+
+        Args:
+            agent_id: The ID of the agent to retrieve
+
+        Returns:
+            AgentResponse: The agent from Retell SDK
+        """
+        return self.client.agent.retrieve(agent_id)
+
     def create_call(self, phone_number: str, agent_config: dict):
         """
         Create a phone call via Retell AI.

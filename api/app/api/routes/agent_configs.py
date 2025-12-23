@@ -69,13 +69,18 @@ def get_agent_config(agent_id: str, retell_service: RetellServiceDep):
     """
     Get a specific agent configuration from Retell AI.
 
-    Note: This endpoint requires implementing the get_agent method in RetellService.
+    Args:
+        agent_id: The ID of the agent to retrieve
+
+    Returns:
+        AgentResponse: The agent from Retell SDK
     """
-    # TODO: Implement get_agent in RetellService
-    raise HTTPException(
-        status_code=501,
-        detail="Get single agent not yet implemented. Use list endpoint with pagination.",
-    )
+    try:
+        return retell_service.get_agent(agent_id)
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Failed to fetch agent from Retell: {str(e)}"
+        ) from e
 
 
 @router.patch("/{agent_id}", response_model=AgentResponse)
