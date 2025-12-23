@@ -5,6 +5,7 @@ export { agentUpdateRequestSchema } from "./agentUpdateRequestSchema";
 export { callCreateSchema } from "./callCreateSchema";
 export { callResponseSchema } from "./callResponseSchema";
 export { createAgentConfigApiAgentConfigsPost201Schema, createAgentConfigApiAgentConfigsPost422Schema, createAgentConfigApiAgentConfigsPostMutationRequestSchema, createAgentConfigApiAgentConfigsPostMutationResponseSchema } from "./createAgentConfigApiAgentConfigsPostSchema";
+export { createWebCallApiWebCallsPost201Schema, createWebCallApiWebCallsPost422Schema, createWebCallApiWebCallsPostMutationRequestSchema, createWebCallApiWebCallsPostMutationResponseSchema } from "./createWebCallApiWebCallsPostSchema";
 export { getAgentConfigApiAgentConfigsAgentIdGetPathParamsSchema, getAgentConfigApiAgentConfigsAgentIdGet200Schema, getAgentConfigApiAgentConfigsAgentIdGet422Schema, getAgentConfigApiAgentConfigsAgentIdGetQueryResponseSchema } from "./getAgentConfigApiAgentConfigsAgentIdGetSchema";
 export { getCallApiCallsCallIdGetPathParamsSchema, getCallApiCallsCallIdGet200Schema, getCallApiCallsCallIdGet422Schema, getCallApiCallsCallIdGetQueryResponseSchema } from "./getCallApiCallsCallIdGetSchema";
 export { healthCheckHealthGet200Schema, healthCheckHealthGetQueryResponseSchema } from "./healthCheckHealthGetSchema";
@@ -31,3 +32,4 @@ export { voicemailOptionActionVoicemailActionHangupSchema } from "./voicemailOpt
 export { voicemailOptionActionVoicemailActionPromptSchema } from "./voicemailOptionActionVoicemailActionPromptSchema";
 export { voicemailOptionActionVoicemailActionStaticTextSchema } from "./voicemailOptionActionVoicemailActionStaticTextSchema";
 export { voicemailOptionSchema } from "./voicemailOptionSchema";
+export { webCallCreateRequestSchema } from "./webCallCreateRequestSchema";

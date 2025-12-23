@@ -5,6 +5,7 @@ export type { AgentUpdateRequest } from "./AgentUpdateRequest";
 export type { CallCreate } from "./CallCreate";
 export type { CallResponse } from "./CallResponse";
 export type { CreateAgentConfigApiAgentConfigsPost201, CreateAgentConfigApiAgentConfigsPost422, CreateAgentConfigApiAgentConfigsPostMutationRequest, CreateAgentConfigApiAgentConfigsPostMutationResponse, CreateAgentConfigApiAgentConfigsPostMutation } from "./CreateAgentConfigApiAgentConfigsPost";
+export type { CreateWebCallApiWebCallsPost201, CreateWebCallApiWebCallsPost422, CreateWebCallApiWebCallsPostMutationRequest, CreateWebCallApiWebCallsPostMutationResponse, CreateWebCallApiWebCallsPostMutation } from "./CreateWebCallApiWebCallsPost";
 export type { GetAgentConfigApiAgentConfigsAgentIdGetPathParams, GetAgentConfigApiAgentConfigsAgentIdGet200, GetAgentConfigApiAgentConfigsAgentIdGet422, GetAgentConfigApiAgentConfigsAgentIdGetQueryResponse, GetAgentConfigApiAgentConfigsAgentIdGetQuery } from "./GetAgentConfigApiAgentConfigsAgentIdGet";
 export type { GetCallApiCallsCallIdGetPathParams, GetCallApiCallsCallIdGet200, GetCallApiCallsCallIdGet422, GetCallApiCallsCallIdGetQueryResponse, GetCallApiCallsCallIdGetQuery } from "./GetCallApiCallsCallIdGet";
 export type { HealthCheckHealthGet200, HealthCheckHealthGetQueryResponse, HealthCheckHealthGetQuery } from "./HealthCheckHealthGet";
@@ -31,6 +32,7 @@ export type { VoicemailOptionActionVoicemailActionBridgeTransfer } from "./Voice
 export type { VoicemailOptionActionVoicemailActionHangup } from "./VoicemailOptionActionVoicemailActionHangup";
 export type { VoicemailOptionActionVoicemailActionPrompt } from "./VoicemailOptionActionVoicemailActionPrompt";
 export type { VoicemailOptionActionVoicemailActionStaticText } from "./VoicemailOptionActionVoicemailActionStaticText";
+export type { WebCallCreateRequest } from "./WebCallCreateRequest";
 export { agentResponseAmbientSoundEnum } from "./AgentResponse";
 export { agentResponseDataStorageSettingEnum } from "./AgentResponse";
 export { agentResponseDenoisingModeEnum } from "./AgentResponse";

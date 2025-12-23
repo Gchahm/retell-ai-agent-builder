@@ -183,6 +183,33 @@ class RetellService:
             "prompt": prompt,
         }
 
+    def create_web_call(
+        self,
+        agent_id: str,
+        metadata: dict | None = None,
+        retell_llm_dynamic_variables: dict[str, str] | None = None,
+    ):
+        """
+        Create a web call via Retell AI.
+
+        Args:
+            agent_id: Unique ID of agent used for the call
+            metadata: Arbitrary key-value storage for internal use (e.g., customer IDs)
+            retell_llm_dynamic_variables: Dynamic string variables to inject into prompt
+
+        Returns:
+            Call object from Retell SDK containing access_token for frontend
+        """
+        params = {"agent_id": agent_id}
+
+        if metadata is not None:
+            params["metadata"] = metadata
+
+        if retell_llm_dynamic_variables is not None:
+            params["retell_llm_dynamic_variables"] = retell_llm_dynamic_variables
+
+        return self.client.call.create_web_call(**params)
+
     def create_call(self, phone_number: str, agent_config: dict):
         """
         Create a phone call via Retell AI.

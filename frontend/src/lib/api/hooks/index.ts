@@ -7,6 +7,7 @@ export type { ListCallsApiCallsGetQueryKey } from "./calls/useListCallsApiCallsG
 export type { TriggerCallApiCallsTriggerPostMutationKey } from "./calls/useTriggerCallApiCallsTriggerPost";
 export type { HealthCheckHealthGetQueryKey } from "./undefined/useHealthCheckHealthGet";
 export type { RootGetQueryKey } from "./undefined/useRootGet";
+export type { CreateWebCallApiWebCallsPostMutationKey } from "./web-calls/useCreateWebCallApiWebCallsPost";
 export type { RetellWebhookApiWebhooksRetellPostMutationKey } from "./webhooks/useRetellWebhookApiWebhooksRetellPost";
 export { createAgentConfigApiAgentConfigsPostMutationKey } from "./agent-configs/useCreateAgentConfigApiAgentConfigsPost";
 export { createAgentConfigApiAgentConfigsPost } from "./agent-configs/useCreateAgentConfigApiAgentConfigsPost";
@@ -44,6 +45,10 @@ export { rootGetQueryKey } from "./undefined/useRootGet";
 export { rootGet } from "./undefined/useRootGet";
 export { rootGetQueryOptions } from "./undefined/useRootGet";
 export { useRootGet } from "./undefined/useRootGet";
+export { createWebCallApiWebCallsPostMutationKey } from "./web-calls/useCreateWebCallApiWebCallsPost";
+export { createWebCallApiWebCallsPost } from "./web-calls/useCreateWebCallApiWebCallsPost";
+export { createWebCallApiWebCallsPostMutationOptions } from "./web-calls/useCreateWebCallApiWebCallsPost";
+export { useCreateWebCallApiWebCallsPost } from "./web-calls/useCreateWebCallApiWebCallsPost";
 export { retellWebhookApiWebhooksRetellPostMutationKey } from "./webhooks/useRetellWebhookApiWebhooksRetellPost";
 export { retellWebhookApiWebhooksRetellPost } from "./webhooks/useRetellWebhookApiWebhooksRetellPost";
 export { retellWebhookApiWebhooksRetellPostMutationOptions } from "./webhooks/useRetellWebhookApiWebhooksRetellPost";
