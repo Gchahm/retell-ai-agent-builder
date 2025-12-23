@@ -27,3 +27,11 @@ class AgentUpdateRequest(BaseModel):
         default=None,
         description="Updated name for the agent (for internal reference)",
     )
+
+
+class AgentGetResponse(BaseModel):
+    """Response schema for retrieving a single agent."""
+
+    agent_id: str = Field(..., description="Unique identifier for the agent")
+    name: str | None = Field(None, description="Name of the agent (for internal reference)")
+    prompt: str | None = Field(None, description="The system prompt defining agent behavior")

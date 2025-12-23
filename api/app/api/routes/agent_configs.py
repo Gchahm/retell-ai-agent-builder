@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, Query
 from retell.types import AgentListResponse, AgentResponse
 
-from app.schemas import AgentCreateRequest, AgentUpdateRequest
+from app.schemas import AgentCreateRequest, AgentGetResponse, AgentUpdateRequest
 from app.services.retell import RetellService
 
 router = APIRouter(prefix="/api/agent-configs", tags=["agent-configs"])
@@ -64,16 +64,18 @@ def list_agent_configs(
         ) from e
 
 
-@router.get("/{agent_id}", response_model=AgentResponse)
+@router.get("/{agent_id}", response_model=AgentGetResponse)
 def get_agent_config(agent_id: str, retell_service: RetellServiceDep):
     """
     Get a specific agent configuration from Retell AI.
+
+    This endpoint returns only the essential agent details: agent_id, name, and prompt.
 
     Args:
         agent_id: The ID of the agent to retrieve
 
     Returns:
-        AgentResponse: The agent from Retell SDK
+        AgentGetResponse with agent_id, name, and prompt
     """
     try:
         return retell_service.get_agent(agent_id)

@@ -54,52 +54,6 @@ class RetellService:
                 }
             ],
             # Configure structured data extraction for post-call analysis
-            extraction_fields=[
-                {
-                    "name": "call_outcome",
-                    "type": "string",
-                    "enum": ["In-Transit Update", "Arrival Confirmation"],
-                    "description": "The primary outcome/purpose of the call",
-                },
-                {
-                    "name": "driver_status",
-                    "type": "string",
-                    "enum": ["Driving", "Delayed", "Arrived", "Unloading"],
-                    "description": "Current status of the driver",
-                },
-                {
-                    "name": "current_location",
-                    "type": "string",
-                    "description": "Driver's current location (e.g., 'I-10 near Indio, CA')",
-                },
-                {
-                    "name": "eta",
-                    "type": "string",
-                    "description": "Estimated time of arrival (e.g., 'Tomorrow, 8:00 AM')",
-                },
-                {
-                    "name": "delay_reason",
-                    "type": "string",
-                    "description": (
-                        "Reason for any delay (e.g., 'Heavy Traffic', 'Weather', 'None')"
-                    ),
-                },
-                {
-                    "name": "unloading_status",
-                    "type": "string",
-                    "description": (
-                        "Current unloading status "
-                        "(e.g., 'In Door 42', 'Waiting for Lumper', 'Detention', 'N/A')"
-                    ),
-                },
-                {
-                    "name": "pod_reminder_acknowledged",
-                    "type": "boolean",
-                    "description": (
-                        "Whether the driver acknowledged the POD (Proof of Delivery) reminder"
-                    ),
-                },
-            ],
         )
 
         # Step 2: Create the agent using the LLM
@@ -193,17 +147,41 @@ class RetellService:
 
         return self.client.agent.list(**params)
 
-    def get_agent(self, agent_id: str) -> AgentResponse:
+    def get_agent(self, agent_id: str) -> dict:
         """
-        Get a specific agent from Retell AI.
+        Get a specific agent from Retell AI with its prompt.
+
+        This fetches both the agent and its associated LLM to include the prompt
+        in the response.
 
         Args:
             agent_id: The ID of the agent to retrieve
 
         Returns:
-            AgentResponse: The agent from Retell SDK
+            Dictionary containing only agent_id, name, and prompt
         """
-        return self.client.agent.retrieve(agent_id)
+        # Get the agent
+        agent = self.client.agent.retrieve(agent_id)
+
+        # Extract the LLM ID from the response_engine
+        response_engine = agent.response_engine
+        llm_id = response_engine.llm_id if response_engine.type == "retell-llm" else None
+
+        prompt = None
+        if llm_id:
+            try:
+                llm = self.client.llm.retrieve(llm_id)
+                prompt = llm.general_prompt if hasattr(llm, "general_prompt") else None
+            except Exception:
+                # If LLM fetch fails, continue without prompt
+                pass
+
+        # Return only the essential fields
+        return {
+            "agent_id": agent.agent_id,
+            "name": agent.agent_name,
+            "prompt": prompt,
+        }
 
     def create_call(self, phone_number: str, agent_config: dict):
         """

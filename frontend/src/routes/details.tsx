@@ -8,7 +8,7 @@ export function AgentConfigDetails() {
     const navigate = useNavigate()
     const { agentId } = useParams<{ agentId: string }>()
 
-    const { data: agentConfig, isPending, error } = useGetAgentConfigApiAgentConfigsAgentIdGet(
+    const { data, isPending, error } = useGetAgentConfigApiAgentConfigsAgentIdGet(
         agentId!,
         {
             query: {
@@ -25,24 +25,12 @@ export function AgentConfigDetails() {
         )
     }
 
-    if (error || !agentConfig) {
+    if (error || !data) {
         return (
             <PageLayout title="Agent Configuration" description="Error loading configuration">
                 <p className="text-destructive">Failed to load agent configuration.</p>
             </PageLayout>
         )
-    }
-
-    // Extract prompt from response_engine
-    const getPrompt = () => {
-        const engine = agentConfig.response_engine
-        if ('general_prompt' in engine) {
-            return engine.general_prompt
-        }
-        if ('begin_message' in engine) {
-            return engine.begin_message || ''
-        }
-        return ''
     }
 
     return (
@@ -70,7 +58,7 @@ export function AgentConfigDetails() {
                     <div>
                         <h3 className="text-sm font-medium text-muted-foreground mb-2">Agent Name</h3>
                         <p className="text-lg">
-                            {agentConfig.agent_name || <span className="italic text-muted-foreground">No name set</span>}
+                            {data.name || <span className="italic text-muted-foreground">No name set</span>}
                         </p>
                     </div>
 
@@ -78,14 +66,15 @@ export function AgentConfigDetails() {
                         <h3 className="text-sm font-medium text-muted-foreground mb-2">System Prompt</h3>
                         <div className="bg-muted rounded-md p-4">
                             <pre className="whitespace-pre-wrap font-mono text-sm">
-                                {getPrompt() || <span className="italic text-muted-foreground">No prompt set</span>}
+                                {data.agent_id}
+                                {data.prompt}
                             </pre>
                         </div>
                     </div>
 
                     <div>
                         <h3 className="text-sm font-medium text-muted-foreground mb-2">Agent ID</h3>
-                        <p className="text-sm font-mono">{agentConfig.agent_id}</p>
+                        <p className="text-sm font-mono">{data.agent_id}</p>
                     </div>
                 </div>
             </div>
