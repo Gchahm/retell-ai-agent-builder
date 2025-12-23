@@ -1,0 +1,1 @@
+{"properties":{"llm_id":{"type":"string","title":"Llm Id"},"type":{"type":"string","const":"retell-llm","title":"Type"},"version":{"anyOf":[{"type":"number"},{"type":"null"}],"title":"Version"}},"additionalProperties":true,"type":"object","required":["llm_id","type"],"title":"ResponseEngineResponseEngineRetellLm","x-readme-ref-name":"ResponseEngineResponseEngineRetellLm"}

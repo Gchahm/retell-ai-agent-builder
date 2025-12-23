@@ -1,0 +1,1437 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/funcionarios": {
+      "post": {
+        "operationId": "FuncionariosController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFuncionarioDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Funcionarios"
+        ]
+      },
+      "get": {
+        "operationId": "FuncionariosController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FuncionarioDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Funcionarios"
+        ]
+      }
+    },
+    "/funcionarios/{id}": {
+      "get": {
+        "operationId": "FuncionariosController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FuncionarioDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Funcionarios"
+        ]
+      },
+      "patch": {
+        "operationId": "FuncionariosController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateFuncionarioDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Funcionarios"
+        ]
+      },
+      "delete": {
+        "operationId": "FuncionariosController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Funcionarios"
+        ]
+      }
+    },
+    "/projetos": {
+      "post": {
+        "operationId": "ProjetosController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjetoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Projetos"
+        ]
+      },
+      "get": {
+        "operationId": "ProjetosController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProjetoDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Projetos"
+        ]
+      }
+    },
+    "/projetos/{id}": {
+      "get": {
+        "operationId": "ProjetosController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjetoDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Projetos"
+        ]
+      },
+      "patch": {
+        "operationId": "ProjetosController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProjetoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Projetos"
+        ]
+      },
+      "delete": {
+        "operationId": "ProjetosController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Projetos"
+        ]
+      }
+    },
+    "/health": {
+      "get": {
+        "operationId": "HealthController_getHealth",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Health"
+        ]
+      }
+    },
+    "/empresas": {
+      "post": {
+        "operationId": "EmpresasController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateEmpresaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Empresas"
+        ]
+      },
+      "get": {
+        "operationId": "EmpresasController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EmpresaDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Empresas"
+        ]
+      }
+    },
+    "/empresas/{id}": {
+      "get": {
+        "operationId": "EmpresasController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetEmpresaResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Empresas"
+        ]
+      },
+      "patch": {
+        "operationId": "EmpresasController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateEmpresaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Empresas"
+        ]
+      },
+      "delete": {
+        "operationId": "EmpresasController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Empresas"
+        ]
+      }
+    },
+    "/diarias": {
+      "get": {
+        "operationId": "DiariasController_findInRange",
+        "parameters": [
+          {
+            "name": "from",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DiariaDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Diarias"
+        ]
+      },
+      "post": {
+        "operationId": "DiariasController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDiariaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiariaDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Diarias"
+        ]
+      }
+    },
+    "/diarias/bulk": {
+      "post": {
+        "operationId": "DiariasController_createMany",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateManyDiariasDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DiariaDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Diarias"
+        ]
+      }
+    },
+    "/diarias/{id}": {
+      "patch": {
+        "operationId": "DiariasController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDiariaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiariaDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Diarias"
+        ]
+      }
+    },
+    "/lookups": {
+      "post": {
+        "operationId": "LookupsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLookupDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Lookups"
+        ]
+      }
+    },
+    "/lookups/{grupo}": {
+      "get": {
+        "operationId": "LookupsController_findByGroup",
+        "parameters": [
+          {
+            "name": "grupo",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LookupDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Lookups"
+        ]
+      }
+    },
+    "/lookups/{grupo}/{id}": {
+      "get": {
+        "operationId": "LookupsController_findOne",
+        "parameters": [
+          {
+            "name": "grupo",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Lookups"
+        ]
+      },
+      "patch": {
+        "operationId": "LookupsController_update",
+        "parameters": [
+          {
+            "name": "grupo",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLookupDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Lookups"
+        ]
+      },
+      "delete": {
+        "operationId": "LookupsController_remove",
+        "parameters": [
+          {
+            "name": "grupo",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Lookups"
+        ]
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "operationId": "AuthController_refresh",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "operationId": "AuthController_logout",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogoutDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Dougust API",
+    "description": "Auto-generated OpenAPI specification",
+    "version": "1.0.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "CreateFuncionarioDto": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "social": {
+            "type": "string",
+            "minLength": 0,
+            "maxLength": 100
+          },
+          "cpf": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 15
+          },
+          "nascimento": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string",
+            "minLength": 0,
+            "maxLength": 20
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "projetoId": {
+            "type": "string"
+          },
+          "rg": {
+            "type": "string",
+            "minLength": 0,
+            "maxLength": 11
+          },
+          "funcao": {
+            "type": "string",
+            "minLength": 0,
+            "maxLength": 30
+          },
+          "dependetes": {
+            "type": "number"
+          },
+          "valorCafe": {
+            "type": "number"
+          },
+          "valorSaudeOcupacional": {
+            "type": "number"
+          },
+          "valorSaudePlano": {
+            "type": "number"
+          },
+          "valorJanta": {
+            "type": "number"
+          },
+          "valorDescontoCasa": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "cpf",
+          "email",
+          "projetoId",
+          "funcao",
+          "dependetes"
+        ]
+      },
+      "FuncionarioDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "social": {
+            "type": "string"
+          },
+          "cpf": {
+            "type": "string"
+          },
+          "nascimento": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "rg": {
+            "type": "string"
+          },
+          "funcao": {
+            "type": "string"
+          },
+          "salario": {
+            "type": "number"
+          },
+          "dependetes": {
+            "type": "number"
+          },
+          "projetoId": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "decimoTerceiro": {
+            "type": "number"
+          },
+          "ferias": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "nome",
+          "social",
+          "cpf",
+          "nascimento",
+          "phone",
+          "email",
+          "rg",
+          "funcao",
+          "salario",
+          "dependetes",
+          "projetoId",
+          "createdAt",
+          "updatedAt",
+          "decimoTerceiro",
+          "ferias"
+        ]
+      },
+      "UpdateFuncionarioDto": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "social": {
+            "type": "string",
+            "minLength": 0,
+            "maxLength": 100
+          },
+          "cpf": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 15
+          },
+          "nascimento": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string",
+            "minLength": 0,
+            "maxLength": 20
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "projetoId": {
+            "type": "string"
+          },
+          "rg": {
+            "type": "string",
+            "minLength": 0,
+            "maxLength": 11
+          },
+          "funcao": {
+            "type": "string",
+            "minLength": 0,
+            "maxLength": 30
+          },
+          "dependetes": {
+            "type": "number"
+          },
+          "valorCafe": {
+            "type": "number"
+          },
+          "valorSaudeOcupacional": {
+            "type": "number"
+          },
+          "valorSaudePlano": {
+            "type": "number"
+          },
+          "valorJanta": {
+            "type": "number"
+          },
+          "valorDescontoCasa": {
+            "type": "number"
+          }
+        }
+      },
+      "CreateProjetoDto": {
+        "type": "object",
+        "properties": {
+          "empresaId": {
+            "type": "string"
+          },
+          "nome": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "inicio": {
+            "type": "string"
+          },
+          "fim": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "nome",
+          "inicio",
+          "fim"
+        ]
+      },
+      "ProjetoDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "empresaId": {
+            "type": "string"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "inicio": {
+            "type": "string"
+          },
+          "fim": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "empresaId",
+          "nome",
+          "inicio",
+          "fim",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "UpdateProjetoDto": {
+        "type": "object",
+        "properties": {
+          "empresaId": {
+            "type": "string"
+          },
+          "nome": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "inicio": {
+            "type": "string"
+          },
+          "fim": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateEmpresaDto": {
+        "type": "object",
+        "properties": {
+          "razao": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "fantasia": {
+            "type": "string",
+            "minLength": 0,
+            "maxLength": 100
+          },
+          "cnpj": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 15
+          },
+          "registro": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string",
+            "minLength": 0,
+            "maxLength": 20
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          }
+        },
+        "required": [
+          "cnpj",
+          "email"
+        ]
+      },
+      "EmpresaDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "razao": {
+            "type": "string"
+          },
+          "fantasia": {
+            "type": "string"
+          },
+          "cnpj": {
+            "type": "string"
+          },
+          "registro": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "razao",
+          "fantasia",
+          "cnpj",
+          "registro",
+          "phone",
+          "email",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "GetEmpresaResponseDto": {
+        "type": "object",
+        "properties": {
+          "empresa": {
+            "$ref": "#/components/schemas/EmpresaDto"
+          }
+        },
+        "required": [
+          "empresa"
+        ]
+      },
+      "UpdateEmpresaDto": {
+        "type": "object",
+        "properties": {
+          "razao": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "fantasia": {
+            "type": "string",
+            "minLength": 0,
+            "maxLength": 100
+          },
+          "cnpj": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 15
+          },
+          "registro": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string",
+            "minLength": 0,
+            "maxLength": 20
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          }
+        }
+      },
+      "DiariaDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "dia": {
+            "type": "string"
+          },
+          "funcionarioId": {
+            "type": "string"
+          },
+          "projetoId": {
+            "type": "string"
+          },
+          "tipoDiaria": {
+            "type": "string"
+          },
+          "observacoes": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "dia",
+          "funcionarioId",
+          "projetoId",
+          "tipoDiaria",
+          "observacoes",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "CreateDiariaDto": {
+        "type": "object",
+        "properties": {
+          "projetoId": {
+            "type": "string"
+          },
+          "funcionarioId": {
+            "type": "string"
+          },
+          "dia": {
+            "type": "string"
+          },
+          "tipoDiaria": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "projetoId",
+          "funcionarioId",
+          "dia"
+        ]
+      },
+      "CreateManyDiariasDto": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateDiariaDto"
+            }
+          }
+        },
+        "required": [
+          "items"
+        ]
+      },
+      "CreateLookupDto": {
+        "type": "object",
+        "properties": {
+          "grupo": {
+            "type": "string"
+          },
+          "nome": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "grupo",
+          "nome"
+        ]
+      },
+      "LookupDto": {
+        "type": "object",
+        "properties": {
+          "grupo": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "grupo",
+          "id",
+          "nome"
+        ]
+      },
+      "UpdateLookupDto": {
+        "type": "object",
+        "properties": {
+          "grupo": {
+            "type": "string"
+          },
+          "nome": {
+            "type": "string"
+          }
+        }
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 6
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "AuthResponseDto": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "format": "email"
+          },
+          "refreshToken": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "accessToken",
+          "refreshToken"
+        ]
+      },
+      "RefreshDto": {
+        "type": "object",
+        "properties": {
+          "refreshToken": {
+            "type": "string",
+            "minLength": 10
+          }
+        },
+        "required": [
+          "refreshToken"
+        ]
+      },
+      "LogoutDto": {
+        "type": "object",
+        "properties": {
+          "refreshToken": {
+            "type": "string",
+            "minLength": 10
+          }
+        }
+      }
+    }
+  }
+}

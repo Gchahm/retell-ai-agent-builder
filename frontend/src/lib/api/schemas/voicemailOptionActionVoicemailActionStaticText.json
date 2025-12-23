@@ -1,0 +1,1 @@
+{"properties":{"text":{"type":"string","title":"Text"},"type":{"type":"string","const":"static_text","title":"Type"}},"additionalProperties":true,"type":"object","required":["text","type"],"title":"VoicemailOptionActionVoicemailActionStaticText","x-readme-ref-name":"VoicemailOptionActionVoicemailActionStaticText"}

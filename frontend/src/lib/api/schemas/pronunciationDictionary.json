@@ -1,0 +1,1 @@
+{"properties":{"alphabet":{"type":"string","enum":["ipa","cmu"],"title":"Alphabet"},"phoneme":{"type":"string","title":"Phoneme"},"word":{"type":"string","title":"Word"}},"additionalProperties":true,"type":"object","required":["alphabet","phoneme","word"],"title":"PronunciationDictionary","x-readme-ref-name":"PronunciationDictionary"}

@@ -1,0 +1,1 @@
+{"properties":{"llm_websocket_url":{"type":"string","title":"Llm Websocket Url"},"type":{"type":"string","const":"custom-llm","title":"Type"}},"additionalProperties":true,"type":"object","required":["llm_websocket_url","type"],"title":"ResponseEngineResponseEngineCustomLm","x-readme-ref-name":"ResponseEngineResponseEngineCustomLm"}

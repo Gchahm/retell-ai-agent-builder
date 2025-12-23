@@ -1,0 +1,1 @@
+{"properties":{"type":{"type":"string","const":"bridge_transfer","title":"Type"}},"additionalProperties":true,"type":"object","required":["type"],"title":"VoicemailOptionActionVoicemailActionBridgeTransfer","x-readme-ref-name":"VoicemailOptionActionVoicemailActionBridgeTransfer"}

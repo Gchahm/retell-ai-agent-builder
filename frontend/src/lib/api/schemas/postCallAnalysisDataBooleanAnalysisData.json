@@ -1,0 +1,1 @@
+{"properties":{"description":{"type":"string","title":"Description"},"name":{"type":"string","title":"Name"},"type":{"type":"string","const":"boolean","title":"Type"}},"additionalProperties":true,"type":"object","required":["description","name","type"],"title":"PostCallAnalysisDataBooleanAnalysisData","x-readme-ref-name":"PostCallAnalysisDataBooleanAnalysisData"}

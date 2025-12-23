@@ -1,0 +1,1 @@
+{"properties":{"description":{"type":"string","title":"Description"},"name":{"type":"string","title":"Name"},"type":{"type":"string","const":"number","title":"Type"}},"additionalProperties":true,"type":"object","required":["description","name","type"],"title":"PostCallAnalysisDataNumberAnalysisData","x-readme-ref-name":"PostCallAnalysisDataNumberAnalysisData"}

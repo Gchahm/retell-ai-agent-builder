@@ -1,0 +1,1 @@
+{"properties":{"type":{"type":"string","const":"hangup","title":"Type"}},"additionalProperties":true,"type":"object","required":["type"],"title":"VoicemailOptionActionVoicemailActionHangup","x-readme-ref-name":"VoicemailOptionActionVoicemailActionHangup"}

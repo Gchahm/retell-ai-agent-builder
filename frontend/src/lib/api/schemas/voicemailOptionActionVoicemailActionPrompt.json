@@ -1,0 +1,1 @@
+{"properties":{"text":{"type":"string","title":"Text"},"type":{"type":"string","const":"prompt","title":"Type"}},"additionalProperties":true,"type":"object","required":["text","type"],"title":"VoicemailOptionActionVoicemailActionPrompt","x-readme-ref-name":"VoicemailOptionActionVoicemailActionPrompt"}
