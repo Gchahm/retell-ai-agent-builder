@@ -32,3 +32,22 @@ webhook_logs/
 # OS
 .DS_Store
 Thumbs.db
+
+# Python packaging
+*.egg
+*.egg-info/
+dist-python/
+build/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.manifest
+*.spec
+
