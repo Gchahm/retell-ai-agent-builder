@@ -81,3 +81,23 @@ def build_full_prompt(custom_prompt: str) -> str:
         Full prompt with system sections prepended.
     """
     return SYSTEM_PROMPT_PREFIX + custom_prompt
+
+
+def extract_user_prompt(full_prompt: str) -> str:
+    """Extract the user's custom prompt from a full prompt.
+
+    The full prompt contains a system prefix (style guardrails, emergency protocols,
+    etc.) followed by "---" and then the user's custom prompt. This function
+    returns only the user's portion.
+
+    Args:
+        full_prompt: The complete prompt with system prefix.
+
+    Returns:
+        The user's custom prompt (everything after the first ---).
+    """
+    separator = "---"
+    parts = full_prompt.split(separator, 1)
+    if len(parts) > 1:
+        return parts[1].lstrip("\n")
+    return full_prompt

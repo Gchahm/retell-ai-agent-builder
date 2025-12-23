@@ -2,7 +2,7 @@ from retell import Retell
 from retell.types import AgentListResponse, AgentResponse
 
 from app.config import get_settings
-from app.services.prompts import build_full_prompt
+from app.services.prompts import build_full_prompt, extract_user_prompt
 
 settings = get_settings()
 
@@ -288,13 +288,14 @@ class RetellService:
         Get a specific agent from Retell AI with its prompt.
 
         This fetches both the agent and its associated LLM to include the prompt
-        in the response.
+        in the response. Only the user's custom prompt is returned (not the
+        system prefix with guardrails, emergency protocols, etc.).
 
         Args:
             agent_id: The ID of the agent to retrieve
 
         Returns:
-            Dictionary containing only agent_id, name, and prompt
+            Dictionary containing only agent_id, name, and prompt (user portion only)
         """
         # Get the agent
         agent = self.client.agent.retrieve(agent_id)
@@ -307,7 +308,9 @@ class RetellService:
         if llm_id:
             try:
                 llm = self.client.llm.retrieve(llm_id)
-                prompt = llm.general_prompt if hasattr(llm, "general_prompt") else None
+                full_prompt = llm.general_prompt if hasattr(llm, "general_prompt") else None
+                # Extract only the user's custom prompt (after the ---)
+                prompt = extract_user_prompt(full_prompt) if full_prompt else None
             except Exception:
                 # If LLM fetch fails, continue without prompt
                 pass
