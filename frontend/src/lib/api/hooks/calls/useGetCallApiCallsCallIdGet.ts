@@ -14,7 +14,7 @@ export const getCallApiCallsCallIdGetQueryKey = (call_id: GetCallApiCallsCallIdG
 export type GetCallApiCallsCallIdGetQueryKey = ReturnType<typeof getCallApiCallsCallIdGetQueryKey>
 
 /**
- * @description Get a specific call.
+ * @description Get a specific call with its transcript and structured data.Fetches the call details along with the associated call result(transcript and structured data) if available.
  * @summary Get Call
  * {@link /api/calls/:call_id}
  */
@@ -38,7 +38,7 @@ export function getCallApiCallsCallIdGetQueryOptions(call_id: GetCallApiCallsCal
 }
 
 /**
- * @description Get a specific call.
+ * @description Get a specific call with its transcript and structured data.Fetches the call details along with the associated call result(transcript and structured data) if available.
  * @summary Get Call
  * {@link /api/calls/:call_id}
  */

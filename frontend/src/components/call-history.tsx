@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router'
 import { useListCallsApiCallsGet } from '@/lib/api'
 import {
     Card,
@@ -36,6 +37,7 @@ function formatDate(dateString: string) {
 }
 
 export function CallHistory({ agentId }: CallHistoryProps) {
+    const navigate = useNavigate()
     const { data: calls, isPending, error } = useListCallsApiCallsGet()
 
     const agentCalls = calls?.filter(call => call.retell_agent_id === agentId) ?? []
@@ -64,7 +66,11 @@ export function CallHistory({ agentId }: CallHistoryProps) {
                         </TableHeader>
                         <TableBody>
                             {agentCalls.map(call => (
-                                <TableRow key={call.id}>
+                                <TableRow
+                                    key={call.id}
+                                    className="cursor-pointer"
+                                    onClick={() => navigate(`/details/${agentId}/calls/${call.id}`)}
+                                >
                                     <TableCell>{formatDate(call.created_at)}</TableCell>
                                     <TableCell>{call.driver_name}</TableCell>
                                     <TableCell>{call.phone_number}</TableCell>

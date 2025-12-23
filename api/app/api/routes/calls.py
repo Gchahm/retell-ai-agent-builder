@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException
 from sqlmodel import select
 
 from app.api.deps import RetellServiceDep, SessionDep
-from app.models import Call
+from app.models import Call, CallResult
 from app.schemas import CallCreate, CallResponse
 
 router = APIRouter(prefix="/api/calls", tags=["calls"])
@@ -63,8 +63,32 @@ def list_calls(session: SessionDep, skip: int = 0, limit: int = 100):
 
 @router.get("/{call_id}", response_model=CallResponse)
 def get_call(call_id: int, session: SessionDep):
-    """Get a specific call."""
+    """
+    Get a specific call with its transcript and structured data.
+
+    Fetches the call details along with the associated call result
+    (transcript and structured data) if available.
+    """
     call = session.get(Call, call_id)
     if not call:
         raise HTTPException(status_code=404, detail="Call not found")
-    return call
+
+    # Fetch the associated call result
+    call_result = session.exec(select(CallResult).where(CallResult.call_id == call_id)).first()
+
+    # Build response with call data and optionally call result data
+    response_data = {
+        "id": call.id,
+        "retell_agent_id": call.retell_agent_id,
+        "driver_name": call.driver_name,
+        "phone_number": call.phone_number,
+        "load_number": call.load_number,
+        "status": call.status,
+        "retell_call_id": call.retell_call_id,
+        "created_at": call.created_at,
+        "updated_at": call.updated_at,
+        "transcript": call_result.transcript if call_result else None,
+        "structured_data": call_result.structured_data if call_result else None,
+    }
+
+    return response_data

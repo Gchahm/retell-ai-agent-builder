@@ -14,7 +14,7 @@ export const createWebCallApiCallswebcallPostMutationKey = () => [{ url: '/api/c
 export type CreateWebCallApiCallswebcallPostMutationKey = ReturnType<typeof createWebCallApiCallswebcallPostMutationKey>
 
 /**
- * @description Create a web call via Retell AI.This endpoint creates a web call and returns an access token that can be usedby the frontend to join the call.Args:    request: Web call creation request with agent_id and optional metadataReturns:    Call object from Retell SDK containing access_token and call details
+ * @description Create a web call via Retell AI.This endpoint creates a web call and returns an access token that can be usedby the frontend to join the call. The driver_name, phone_number, and load_numberare automatically injected as dynamic variables into the agent's prompt.Args:    request: Web call creation request with agent_id, driver info, and load detailsReturns:    Call object from Retell SDK containing access_token and call details
  * @summary Create Web Call
  * {@link /api/callswebcall/}
  */
@@ -38,7 +38,7 @@ export function createWebCallApiCallswebcallPostMutationOptions(config: Partial<
 }
 
 /**
- * @description Create a web call via Retell AI.This endpoint creates a web call and returns an access token that can be usedby the frontend to join the call.Args:    request: Web call creation request with agent_id and optional metadataReturns:    Call object from Retell SDK containing access_token and call details
+ * @description Create a web call via Retell AI.This endpoint creates a web call and returns an access token that can be usedby the frontend to join the call. The driver_name, phone_number, and load_numberare automatically injected as dynamic variables into the agent's prompt.Args:    request: Web call creation request with agent_id, driver info, and load detailsReturns:    Call object from Retell SDK containing access_token and call details
  * @summary Create Web Call
  * {@link /api/callswebcall/}
  */

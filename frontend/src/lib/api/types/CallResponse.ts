@@ -41,4 +41,8 @@ export type CallResponse = {
      * @type string, date-time
     */
     updated_at: string;
+    transcript?: (string | null);
+    structured_data?: ({
+        [key: string]: any;
+    } | null);
 };

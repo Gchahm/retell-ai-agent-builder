@@ -17,5 +17,9 @@ export const callResponseSchema = z.object({
 "status": z.string(),
 "retell_call_id": z.union([z.string(), z.null()]),
 "created_at": z.string().datetime(),
-"updated_at": z.string().datetime()
+"updated_at": z.string().datetime(),
+"transcript": z.optional(z.union([z.string(), z.null()])),
+"structured_data": z.optional(z.union([z.object({
+    
+    }).catchall(z.any()), z.null()]))
     }).describe("Schema for call response.")

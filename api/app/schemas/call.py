@@ -24,5 +24,7 @@ class CallResponse(BaseModel):
     retell_call_id: str | None
     created_at: datetime
     updated_at: datetime
+    transcript: str | None = None
+    structured_data: dict | None = None
 
     model_config = {"from_attributes": True}

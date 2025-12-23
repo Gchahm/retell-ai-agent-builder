@@ -3,9 +3,9 @@ import { PageLayout } from '@/components/layout/page-layout.tsx'
 import { useGetAgentConfigApiAgentConfigsAgentIdGet } from '@/lib/api'
 import { Button } from '@/components/ui/button'
 import { Edit, ArrowLeft } from 'lucide-react'
-import { WebCallButton } from '@/components/web-call-button'
 import { AgentInfoCard } from '@/components/agent-info-card'
 import { CallHistory } from '@/components/call-history'
+import {WebCallButton} from "@/components/web-call-button.tsx";
 
 export function AgentConfigDetails() {
     const navigate = useNavigate()
