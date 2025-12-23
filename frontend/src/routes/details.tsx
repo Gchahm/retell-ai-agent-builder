@@ -3,6 +3,7 @@ import { PageLayout } from '@/components/layout/page-layout.tsx'
 import { useGetAgentConfigApiAgentConfigsAgentIdGet } from '@/lib/api'
 import { Button } from '@/components/ui/button'
 import { Edit, ArrowLeft } from 'lucide-react'
+import { WebCallButton } from '@/components/web-call-button'
 
 export function AgentConfigDetails() {
     const navigate = useNavigate()
@@ -39,6 +40,7 @@ export function AgentConfigDetails() {
             description="View your AI voice agent configuration"
             actions={
                 <div className="flex gap-2">
+                    <WebCallButton agentId={agentId!} />
                     <Button variant="outline" asChild>
                         <Link to={`/edit/${agentId}`}>
                             <Edit className="mr-2 h-4 w-4" />
@@ -66,7 +68,6 @@ export function AgentConfigDetails() {
                         <h3 className="text-sm font-medium text-muted-foreground mb-2">System Prompt</h3>
                         <div className="bg-muted rounded-md p-4">
                             <pre className="whitespace-pre-wrap font-mono text-sm">
-                                {data.agent_id}
                                 {data.prompt}
                             </pre>
                         </div>
