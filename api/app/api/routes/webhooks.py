@@ -8,9 +8,8 @@ from fastapi import APIRouter, BackgroundTasks, HTTPException, Request
 from pydantic import BaseModel
 from sqlmodel import select
 
-from app.api.deps import SessionDep
+from app.api.deps import SessionDep, PostProcessingServiceDep
 from app.models import Call, CallResult
-from app.services.post_processing import PostProcessingService
 
 router = APIRouter(prefix="/api/webhooks", tags=["webhooks"])
 logger = logging.getLogger(__name__)
@@ -28,7 +27,12 @@ class WebhookPayload(BaseModel):
 
 
 @router.post("/retell", status_code=204)
-async def retell_webhook(request: Request, background_tasks: BackgroundTasks, session: SessionDep):
+async def retell_webhook(
+    request: Request,
+    background_tasks: BackgroundTasks,
+    session: SessionDep,
+    post_processing_service: PostProcessingServiceDep,
+):
     """
     Receive webhooks from Retell AI.
 
@@ -51,13 +55,13 @@ async def retell_webhook(request: Request, background_tasks: BackgroundTasks, se
         raise HTTPException(status_code=400, detail="Invalid payload") from e
 
     # Process in background to respond quickly (10s timeout)
-    background_tasks.add_task(process_webhook, payload, session)
+    background_tasks.add_task(process_webhook, payload, session, post_processing_service)
 
     # Return 204 No Content (successful acknowledgment)
     return None
 
 
-def process_webhook(payload: WebhookPayload, session: SessionDep):
+def process_webhook(payload: WebhookPayload, session: SessionDep, post_processing_service: PostProcessingServiceDep):
     """
     Process webhook event in background.
 
@@ -116,7 +120,7 @@ def process_webhook(payload: WebhookPayload, session: SessionDep):
             logger.info(f"Call {retell_call_id} ended with status: {call_status}")
 
         elif event == "call_analyzed":
-            # Store transcript and create CallResult
+            # Extract transcript and analysis data from Retell
             transcript = call_data.get("transcript", "")
 
             # Check if CallResult already exists
@@ -124,20 +128,25 @@ def process_webhook(payload: WebhookPayload, session: SessionDep):
                 select(CallResult).where(CallResult.call_id == db_call.id)
             ).first()
 
-            if not existing_result:
+            structured_data = post_processing_service.extract_structured_data(call_data)
+
+            if existing_result:
+                # Update existing result
+                existing_result.transcript = transcript
+                existing_result.structured_data = structured_data
+                session.add(existing_result)
+                session.commit()
+                logger.info(f"Call {retell_call_id} analyzed, updated existing result")
+            else:
+                # Create new result
                 call_result = CallResult(
                     call_id=db_call.id,
                     transcript=transcript,
-                    structured_data={},  # TODO: Implement LLM post-processing
+                    structured_data=structured_data,
                 )
                 session.add(call_result)
                 session.commit()
-                logger.info(f"Call {retell_call_id} analyzed, transcript stored")
-
-                # TODO: Trigger LLM post-processing to extract structured data
-                # structured_data = extract_structured_data(transcript, db_call.agent_id)
-                # call_result.structured_data = structured_data
-                # session.commit()
+                logger.info(f"Call {retell_call_id} analyzed, transcript and data stored")
 
     except Exception as e:
         logger.error(f"Error processing webhook for call {retell_call_id}: {e}")

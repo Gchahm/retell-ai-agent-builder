@@ -128,11 +128,12 @@ class RetellService:
             webhook_url=settings.webhook_url,
             # Post-call analysis data extraction for logistics tracking
             post_call_analysis_data=[
+                # Standard check-in fields
                 {
                     "type": "string",
                     "name": "call_outcome",
-                    "description": "The type of call update provided by the driver.",
-                    "examples": ["In-Transit Update", "Arrival Confirmation"],
+                    "description": "The type of call outcome.",
+                    "examples": ["In-Transit Update", "Arrival Confirmation", "Emergency"],
                 },
                 {
                     "type": "string",
@@ -161,13 +162,43 @@ class RetellService:
                 {
                     "type": "string",
                     "name": "unloading_status",
-                    "description": "The unloading status at destination, or N/A if not applicable.",
+                    "description": "Unloading status at destination, or N/A if not applicable.",
                     "examples": ["In Door 42", "Waiting for Lumper", "Detention", "N/A"],
                 },
                 {
                     "type": "boolean",
                     "name": "pod_reminder_acknowledged",
                     "description": "Whether the driver acknowledged the POD reminder.",
+                },
+                # Emergency fields
+                {
+                    "type": "string",
+                    "name": "emergency_type",
+                    "description": "Type of emergency if one occurred, or None.",
+                    "examples": ["Accident", "Breakdown", "Medical", "None"],
+                },
+                {
+                    "type": "string",
+                    "name": "safety_status",
+                    "description": "Driver safety confirmation in emergency.",
+                    "examples": ["Everyone is safe", "Injuries reported", "N/A"],
+                },
+                {
+                    "type": "string",
+                    "name": "emergency_location",
+                    "description": "Location of emergency incident.",
+                    "examples": ["I-15 North, Mile Marker 123", "N/A"],
+                },
+                {
+                    "type": "boolean",
+                    "name": "load_secure",
+                    "description": "Whether the load is secure after incident.",
+                },
+                {
+                    "type": "string",
+                    "name": "escalation_status",
+                    "description": "Whether call was escalated to human dispatcher.",
+                    "examples": ["Connected to Human Dispatcher", "No Escalation"],
                 },
             ],
         )
