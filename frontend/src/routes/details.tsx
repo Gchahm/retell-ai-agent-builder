@@ -2,7 +2,11 @@ import { useState } from 'react'
 import { useNavigate, useParams, Link } from 'react-router'
 import { useQueryClient } from '@tanstack/react-query'
 import { PageLayout } from '@/components/layout/page-layout.tsx'
-import { useGetAgentConfigApiAgentConfigsAgentIdGet, useUpdateAgentConfigApiAgentConfigsAgentIdPatch } from '@/lib/api'
+import {
+    useGetAgentConfigApiAgentConfigsAgentIdGet,
+    useUpdateAgentConfigApiAgentConfigsAgentIdPatch,
+    getAgentConfigApiAgentConfigsAgentIdGetQueryKey
+} from '@/lib/api'
 import { Button } from '@/components/ui/button'
 import { Edit, ArrowLeft, X } from 'lucide-react'
 import { AgentInfoCard } from '@/components/agent-info-card'
@@ -45,8 +49,9 @@ export function AgentConfigDetails() {
                 },
             })
 
+            // Invalidate the GET agent config query using the proper query key
             await queryClient.invalidateQueries({
-                queryKey: [{ url: `/api/agent-configs/${agentId}` }],
+                queryKey: getAgentConfigApiAgentConfigsAgentIdGetQueryKey(agentId!),
             })
 
             setIsEditing(false)
