@@ -40,7 +40,7 @@ export function CallHistory({ agentId }: CallHistoryProps) {
     const navigate = useNavigate()
     const { data: calls, isPending, error } = useListCallsApiCallsGet()
 
-    const agentCalls = calls?.filter(call => call.retell_agent_id === agentId) ?? []
+    const agentCalls = calls?.filter(call => call.agent_id === agentId) ?? []
 
     return (
         <Card>

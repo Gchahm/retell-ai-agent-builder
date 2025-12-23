@@ -89,9 +89,8 @@ def process_webhook(payload: WebhookPayload, session: SessionDep):
     except Exception as e:
         logger.error(f"Failed to save webhook payload: {e}")
 
-    # Find our Call record by retell_call_id
-    statement = select(Call).where(Call.retell_call_id == retell_call_id)
-    db_call = session.exec(statement).first()
+    # Find our Call record by id (which is the retell_call_id)
+    db_call = session.get(Call, retell_call_id)
 
     if not db_call:
         logger.warning(f"Call not found for retell_call_id: {retell_call_id}")
@@ -136,7 +135,7 @@ def process_webhook(payload: WebhookPayload, session: SessionDep):
                 logger.info(f"Call {retell_call_id} analyzed, transcript stored")
 
                 # TODO: Trigger LLM post-processing to extract structured data
-                # structured_data = extract_structured_data(transcript, db_call.retell_agent_id)
+                # structured_data = extract_structured_data(transcript, db_call.agent_id)
                 # call_result.structured_data = structured_data
                 # session.commit()
 

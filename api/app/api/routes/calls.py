@@ -24,8 +24,21 @@ def create_web_call(request: CallCreate, retell_service: RetellServiceDep, sessi
         Call object from Retell SDK containing access_token and call details
     """
     try:
+        # Build dynamic variables from request fields
+        dynamic_variables = {
+            "DRIVER_NAME": request.driver_name,
+            "PHONE_NUMBER": request.phone_number,
+            "LOAD_NUMBER": request.load_number,
+        }
+
+        retell_call = retell_service.create_web_call(
+            agent_id=request.agent_id,
+            retell_llm_dynamic_variables=dynamic_variables,
+        )
+
         db_call = Call(
-            retell_agent_id=request.retell_agent_id,
+            id=retell_call.call_id,
+            agent_id=request.agent_id,
             driver_name=request.driver_name,
             phone_number=request.phone_number,
             load_number=request.load_number,
@@ -34,19 +47,8 @@ def create_web_call(request: CallCreate, retell_service: RetellServiceDep, sessi
 
         session.add(db_call)
         session.commit()
-        session.refresh(db_call)
 
-        # Build dynamic variables from request fields
-        dynamic_variables = {
-            "driver_name": request.driver_name,
-            "phone_number": request.phone_number,
-            "load_number": request.load_number,
-        }
-
-        return retell_service.create_web_call(
-            agent_id=request.retell_agent_id,
-            retell_llm_dynamic_variables=dynamic_variables,
-        )
+        return retell_call
     except Exception as e:
         raise HTTPException(
             status_code=500, detail=f"Failed to create web call in Retell: {str(e)}"
@@ -62,7 +64,7 @@ def list_calls(session: SessionDep, skip: int = 0, limit: int = 100):
 
 
 @router.get("/{call_id}", response_model=CallResponse)
-def get_call(call_id: int, session: SessionDep):
+def get_call(call_id: str, session: SessionDep):
     """
     Get a specific call with its transcript and structured data.
 
@@ -79,12 +81,11 @@ def get_call(call_id: int, session: SessionDep):
     # Build response with call data and optionally call result data
     response_data = {
         "id": call.id,
-        "retell_agent_id": call.retell_agent_id,
+        "agent_id": call.agent_id,
         "driver_name": call.driver_name,
         "phone_number": call.phone_number,
         "load_number": call.load_number,
         "status": call.status,
-        "retell_call_id": call.retell_call_id,
         "created_at": call.created_at,
         "updated_at": call.updated_at,
         "transcript": call_result.transcript if call_result else None,

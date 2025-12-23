@@ -11,7 +11,7 @@ export type CallCreate = {
     /**
      * @type string
     */
-    retell_agent_id: string;
+    agent_id: string;
     /**
      * @type string
     */

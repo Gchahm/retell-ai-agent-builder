@@ -10,7 +10,7 @@ class CallResult(SQLModel, table=True):
     __tablename__ = "call_results"
 
     id: Optional[int] = Field(default=None, primary_key=True)
-    call_id: int = Field(foreign_key="test_calls.id")
+    call_id: str = Field(foreign_key="test_calls.id")
 
     # Raw data
     transcript: str

@@ -11,7 +11,7 @@ export function CallDetails() {
     const { agentId, callId } = useParams<{ agentId: string; callId: string }>()
 
     const { data, isPending, error } = useGetCallApiCallsCallIdGet(
-        Number(callId),
+        callId!,
         {
             query: {
                 enabled: !!callId,

@@ -8,9 +8,9 @@ import type { HTTPValidationError } from "./HTTPValidationError";
 
 export type GetCallApiCallsCallIdGetPathParams = {
     /**
-     * @type integer
+     * @type string
     */
-    call_id: number;
+    call_id: string;
 };
 
 /**

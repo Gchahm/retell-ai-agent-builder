@@ -9,13 +9,12 @@ import { z } from "zod/v4";
  * @description Schema for call response.
  */
 export const callResponseSchema = z.object({
-    "id": z.int(),
-"retell_agent_id": z.string(),
+    "id": z.string(),
+"agent_id": z.string(),
 "driver_name": z.string(),
 "phone_number": z.string(),
 "load_number": z.string(),
 "status": z.string(),
-"retell_call_id": z.union([z.string(), z.null()]),
 "created_at": z.string().datetime(),
 "updated_at": z.string().datetime(),
 "transcript": z.optional(z.union([z.string(), z.null()])),

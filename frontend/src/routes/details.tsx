@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Edit, ArrowLeft } from 'lucide-react'
 import { AgentInfoCard } from '@/components/agent-info-card'
 import { CallHistory } from '@/components/call-history'
-import {WebCallButton} from "@/components/web-call-button.tsx";
+import {TriggerCallForm} from "@/components/trigger-call-form.tsx";
 
 export function AgentConfigDetails() {
     const navigate = useNavigate()
@@ -42,7 +42,6 @@ export function AgentConfigDetails() {
             description="View your AI voice agent configuration"
             actions={
                 <div className="flex gap-2">
-                    <WebCallButton agentId={agentId!} />
                     <Button variant="outline" asChild>
                         <Link to={`/edit/${agentId}`}>
                             <Edit className="mr-2 h-4 w-4" />
@@ -64,7 +63,10 @@ export function AgentConfigDetails() {
                         prompt={data.prompt}
                         agentId={data.agent_id}
                     />
-                    <CallHistory agentId={data.agent_id} />
+                    <div>
+                        <TriggerCallForm agentId={data.agent_id}/>
+                        <CallHistory agentId={data.agent_id} />
+                    </div>
                 </div>
             </div>
         </PageLayout>

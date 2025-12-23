@@ -8,7 +8,7 @@ import { HTTPValidationErrorSchema } from "./HTTPValidationErrorSchema";
 import { z } from "zod/v4";
 
 export const getCallApiCallsCallIdGetPathParamsSchema = z.object({
-    "call_id": z.coerce.number().int()
+    "call_id": z.string()
     })
 
 /**

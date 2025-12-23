@@ -9,13 +9,13 @@
 */
 export type CallResponse = {
     /**
-     * @type integer
+     * @type string
     */
-    id: number;
+    id: string;
     /**
      * @type string
     */
-    retell_agent_id: string;
+    agent_id: string;
     /**
      * @type string
     */
@@ -32,7 +32,6 @@ export type CallResponse = {
      * @type string
     */
     status: string;
-    retell_call_id: (string | null);
     /**
      * @type string, date-time
     */

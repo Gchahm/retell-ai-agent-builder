@@ -9,7 +9,7 @@ import { z } from "zod/v4";
  * @description Schema for triggering a call.
  */
 export const callCreateSchema = z.object({
-    "retell_agent_id": z.string(),
+    "agent_id": z.string(),
 "driver_name": z.string(),
 "phone_number": z.string(),
 "load_number": z.string()
