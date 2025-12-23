@@ -1,7 +1,7 @@
 import {Link} from 'react-router'
 import {PageLayout} from '@/components/layout/page-layout.tsx'
 import {Button} from '@/components/ui/button.tsx'
-import {Edit, Plus} from 'lucide-react'
+import {Plus} from 'lucide-react'
 import {useListAgentConfigsApiAgentConfigsGet} from '@/lib/api/hooks/agent-configs'
 import type {AgentResponse} from "@/lib/api";
 
@@ -37,7 +37,6 @@ export function AgentConfigsList() {
                         <thead className="border-b bg-muted/50">
                         <tr>
                             <th className="text-left p-4 font-medium">Name</th>
-                            <th className="text-right p-4 font-medium">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -47,13 +46,6 @@ export function AgentConfigsList() {
                                     <Link to={`/details/${config.agent_id}`} className="hover:underline">
                                         {config.agent_name || 'Unnamed Agent'}
                                     </Link>
-                                </td>
-                                <td className="p-4 text-right space-x-2">
-                                    <Button variant="ghost" size="sm" asChild>
-                                        <Link to={`/edit/${config.agent_id}`}>
-                                            <Edit className="h-4 w-4" />
-                                        </Link>
-                                    </Button>
                                 </td>
                             </tr>
                         ))}

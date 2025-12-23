@@ -1,9 +1,8 @@
-import { BrowserRouter, Routes, Route } from 'react-router'
-import { AgentConfigsList } from '@/routes'
-import { AgentConfigNew } from './routes/new.tsx'
-import { AgentConfigEdit } from './routes/edit.tsx'
-import { AgentConfigDetails } from './routes/details.tsx'
-import { CallDetails } from './routes/call-details.tsx'
+import {BrowserRouter, Route, Routes} from 'react-router'
+import {AgentConfigsList} from '@/routes'
+import {AgentConfigNew} from './routes/new.tsx'
+import {AgentConfigDetails} from './routes/details.tsx'
+import {CallDetails} from './routes/call-details.tsx'
 
 
 function App() {
@@ -16,7 +15,6 @@ function App() {
                         <Route path="/new" element={<AgentConfigNew />} />
                         <Route path="/details/:agentId" element={<AgentConfigDetails />} />
                         <Route path="/details/:agentId/calls/:callId" element={<CallDetails />} />
-                        <Route path="/edit/:agentId" element={<AgentConfigEdit />} />
                     </Routes>
                 </main>
             </div>

@@ -4,18 +4,29 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Edit } from 'lucide-react'
 
 interface AgentInfoCardProps {
     name?: string | null
     prompt?: string | null
     agentId: string
+    onEdit?: () => void
 }
 
-export function AgentInfoCard({ name, prompt, agentId }: AgentInfoCardProps) {
+export function AgentInfoCard({ name, prompt, agentId, onEdit }: AgentInfoCardProps) {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Agent Information</CardTitle>
+                <div className="flex items-center justify-between">
+                    <CardTitle>Agent Information</CardTitle>
+                    {onEdit && (
+                        <Button variant="outline" size="sm" onClick={onEdit}>
+                            <Edit className="mr-2 h-4 w-4" />
+                            Edit
+                        </Button>
+                    )}
+                </div>
             </CardHeader>
             <CardContent className="space-y-6">
                 <div>
