@@ -1,5 +1,6 @@
 export type { CreateAgentConfigApiAgentConfigsPostMutationKey } from "./agent-configs/useCreateAgentConfigApiAgentConfigsPost";
 export type { GetAgentConfigApiAgentConfigsAgentIdGetQueryKey } from "./agent-configs/useGetAgentConfigApiAgentConfigsAgentIdGet";
+export type { GetInitialPromptApiAgentConfigsInitialPromptGetQueryKey } from "./agent-configs/useGetInitialPromptApiAgentConfigsInitialPromptGet";
 export type { ListAgentConfigsApiAgentConfigsGetQueryKey } from "./agent-configs/useListAgentConfigsApiAgentConfigsGet";
 export type { UpdateAgentConfigApiAgentConfigsAgentIdPatchMutationKey } from "./agent-configs/useUpdateAgentConfigApiAgentConfigsAgentIdPatch";
 export type { CreateWebCallApiCallswebcallPostMutationKey } from "./calls/useCreateWebCallApiCallswebcallPost";
@@ -16,6 +17,10 @@ export { getAgentConfigApiAgentConfigsAgentIdGetQueryKey } from "./agent-configs
 export { getAgentConfigApiAgentConfigsAgentIdGet } from "./agent-configs/useGetAgentConfigApiAgentConfigsAgentIdGet";
 export { getAgentConfigApiAgentConfigsAgentIdGetQueryOptions } from "./agent-configs/useGetAgentConfigApiAgentConfigsAgentIdGet";
 export { useGetAgentConfigApiAgentConfigsAgentIdGet } from "./agent-configs/useGetAgentConfigApiAgentConfigsAgentIdGet";
+export { getInitialPromptApiAgentConfigsInitialPromptGetQueryKey } from "./agent-configs/useGetInitialPromptApiAgentConfigsInitialPromptGet";
+export { getInitialPromptApiAgentConfigsInitialPromptGet } from "./agent-configs/useGetInitialPromptApiAgentConfigsInitialPromptGet";
+export { getInitialPromptApiAgentConfigsInitialPromptGetQueryOptions } from "./agent-configs/useGetInitialPromptApiAgentConfigsInitialPromptGet";
+export { useGetInitialPromptApiAgentConfigsInitialPromptGet } from "./agent-configs/useGetInitialPromptApiAgentConfigsInitialPromptGet";
 export { listAgentConfigsApiAgentConfigsGetQueryKey } from "./agent-configs/useListAgentConfigsApiAgentConfigsGet";
 export { listAgentConfigsApiAgentConfigsGet } from "./agent-configs/useListAgentConfigsApiAgentConfigsGet";
 export { listAgentConfigsApiAgentConfigsGetQueryOptions } from "./agent-configs/useListAgentConfigsApiAgentConfigsGet";

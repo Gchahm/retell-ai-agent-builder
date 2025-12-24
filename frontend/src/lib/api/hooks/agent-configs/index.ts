@@ -1,5 +1,6 @@
 export type { CreateAgentConfigApiAgentConfigsPostMutationKey } from "./useCreateAgentConfigApiAgentConfigsPost";
 export type { GetAgentConfigApiAgentConfigsAgentIdGetQueryKey } from "./useGetAgentConfigApiAgentConfigsAgentIdGet";
+export type { GetInitialPromptApiAgentConfigsInitialPromptGetQueryKey } from "./useGetInitialPromptApiAgentConfigsInitialPromptGet";
 export type { ListAgentConfigsApiAgentConfigsGetQueryKey } from "./useListAgentConfigsApiAgentConfigsGet";
 export type { UpdateAgentConfigApiAgentConfigsAgentIdPatchMutationKey } from "./useUpdateAgentConfigApiAgentConfigsAgentIdPatch";
 export { createAgentConfigApiAgentConfigsPostMutationKey } from "./useCreateAgentConfigApiAgentConfigsPost";
@@ -10,6 +11,10 @@ export { getAgentConfigApiAgentConfigsAgentIdGetQueryKey } from "./useGetAgentCo
 export { getAgentConfigApiAgentConfigsAgentIdGet } from "./useGetAgentConfigApiAgentConfigsAgentIdGet";
 export { getAgentConfigApiAgentConfigsAgentIdGetQueryOptions } from "./useGetAgentConfigApiAgentConfigsAgentIdGet";
 export { useGetAgentConfigApiAgentConfigsAgentIdGet } from "./useGetAgentConfigApiAgentConfigsAgentIdGet";
+export { getInitialPromptApiAgentConfigsInitialPromptGetQueryKey } from "./useGetInitialPromptApiAgentConfigsInitialPromptGet";
+export { getInitialPromptApiAgentConfigsInitialPromptGet } from "./useGetInitialPromptApiAgentConfigsInitialPromptGet";
+export { getInitialPromptApiAgentConfigsInitialPromptGetQueryOptions } from "./useGetInitialPromptApiAgentConfigsInitialPromptGet";
+export { useGetInitialPromptApiAgentConfigsInitialPromptGet } from "./useGetInitialPromptApiAgentConfigsInitialPromptGet";
 export { listAgentConfigsApiAgentConfigsGetQueryKey } from "./useListAgentConfigsApiAgentConfigsGet";
 export { listAgentConfigsApiAgentConfigsGet } from "./useListAgentConfigsApiAgentConfigsGet";
 export { listAgentConfigsApiAgentConfigsGetQueryOptions } from "./useListAgentConfigsApiAgentConfigsGet";

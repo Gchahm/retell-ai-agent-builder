@@ -1,11 +1,15 @@
 import { useNavigate } from 'react-router'
 import { PageLayout } from '@/components/layout/page-layout.tsx'
-import { useCreateAgentConfigApiAgentConfigsPost } from '@/lib/api/hooks/agent-configs'
+import {
+    useCreateAgentConfigApiAgentConfigsPost,
+    useGetInitialPromptApiAgentConfigsInitialPromptGet,
+} from '@/lib/api/hooks/agent-configs'
 import { AgentConfigForm, type AgentConfigFormData } from '@/components/agent-config-form'
 
 export function AgentConfigNew() {
     const navigate = useNavigate()
     const createMutation = useCreateAgentConfigApiAgentConfigsPost()
+    const { data: initialPromptData, isPending: isLoadingPrompt } = useGetInitialPromptApiAgentConfigsInitialPromptGet()
 
     const handleSubmit = async (data: AgentConfigFormData) => {
         try {
@@ -16,6 +20,14 @@ export function AgentConfigNew() {
         }
     }
 
+    if (isLoadingPrompt) {
+        return (
+            <PageLayout title="New Agent Configuration" description="Create a new AI voice agent configuration">
+                <p>Loading...</p>
+            </PageLayout>
+        )
+    }
+
     return (
         <PageLayout title="New Agent Configuration" description="Create a new AI voice agent configuration">
             <AgentConfigForm
@@ -23,6 +35,10 @@ export function AgentConfigNew() {
                 onSubmit={handleSubmit}
                 onCancel={() => navigate('/')}
                 isSubmitting={createMutation.isPending}
+                initialData={{
+                    prompt: initialPromptData?.prompt ?? '',
+                    agent_name: '',
+                }}
             />
         </PageLayout>
     )

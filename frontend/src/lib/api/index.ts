@@ -1,5 +1,6 @@
 export type { CreateAgentConfigApiAgentConfigsPostMutationKey } from "./hooks/agent-configs/useCreateAgentConfigApiAgentConfigsPost";
 export type { GetAgentConfigApiAgentConfigsAgentIdGetQueryKey } from "./hooks/agent-configs/useGetAgentConfigApiAgentConfigsAgentIdGet";
+export type { GetInitialPromptApiAgentConfigsInitialPromptGetQueryKey } from "./hooks/agent-configs/useGetInitialPromptApiAgentConfigsInitialPromptGet";
 export type { ListAgentConfigsApiAgentConfigsGetQueryKey } from "./hooks/agent-configs/useListAgentConfigsApiAgentConfigsGet";
 export type { UpdateAgentConfigApiAgentConfigsAgentIdPatchMutationKey } from "./hooks/agent-configs/useUpdateAgentConfigApiAgentConfigsAgentIdPatch";
 export type { CreateWebCallApiCallswebcallPostMutationKey } from "./hooks/calls/useCreateWebCallApiCallswebcallPost";
@@ -18,6 +19,7 @@ export type { CreateAgentConfigApiAgentConfigsPost201, CreateAgentConfigApiAgent
 export type { CreateWebCallApiCallswebcallPost201, CreateWebCallApiCallswebcallPost422, CreateWebCallApiCallswebcallPostMutationRequest, CreateWebCallApiCallswebcallPostMutationResponse, CreateWebCallApiCallswebcallPostMutation } from "./types/CreateWebCallApiCallswebcallPost";
 export type { GetAgentConfigApiAgentConfigsAgentIdGetPathParams, GetAgentConfigApiAgentConfigsAgentIdGet200, GetAgentConfigApiAgentConfigsAgentIdGet422, GetAgentConfigApiAgentConfigsAgentIdGetQueryResponse, GetAgentConfigApiAgentConfigsAgentIdGetQuery } from "./types/GetAgentConfigApiAgentConfigsAgentIdGet";
 export type { GetCallApiCallsCallIdGetPathParams, GetCallApiCallsCallIdGet200, GetCallApiCallsCallIdGet422, GetCallApiCallsCallIdGetQueryResponse, GetCallApiCallsCallIdGetQuery } from "./types/GetCallApiCallsCallIdGet";
+export type { GetInitialPromptApiAgentConfigsInitialPromptGet200, GetInitialPromptApiAgentConfigsInitialPromptGetQueryResponse, GetInitialPromptApiAgentConfigsInitialPromptGetQuery } from "./types/GetInitialPromptApiAgentConfigsInitialPromptGet";
 export type { HealthCheckHealthGet200, HealthCheckHealthGetQueryResponse, HealthCheckHealthGetQuery } from "./types/HealthCheckHealthGet";
 export type { HTTPValidationError } from "./types/HTTPValidationError";
 export type { ListAgentConfigsApiAgentConfigsGetQueryParams, ListAgentConfigsApiAgentConfigsGet200, ListAgentConfigsApiAgentConfigsGet422, ListAgentConfigsApiAgentConfigsGetQueryResponse, ListAgentConfigsApiAgentConfigsGetQuery } from "./types/ListAgentConfigsApiAgentConfigsGet";
@@ -49,6 +51,10 @@ export { getAgentConfigApiAgentConfigsAgentIdGetQueryKey } from "./hooks/agent-c
 export { getAgentConfigApiAgentConfigsAgentIdGet } from "./hooks/agent-configs/useGetAgentConfigApiAgentConfigsAgentIdGet";
 export { getAgentConfigApiAgentConfigsAgentIdGetQueryOptions } from "./hooks/agent-configs/useGetAgentConfigApiAgentConfigsAgentIdGet";
 export { useGetAgentConfigApiAgentConfigsAgentIdGet } from "./hooks/agent-configs/useGetAgentConfigApiAgentConfigsAgentIdGet";
+export { getInitialPromptApiAgentConfigsInitialPromptGetQueryKey } from "./hooks/agent-configs/useGetInitialPromptApiAgentConfigsInitialPromptGet";
+export { getInitialPromptApiAgentConfigsInitialPromptGet } from "./hooks/agent-configs/useGetInitialPromptApiAgentConfigsInitialPromptGet";
+export { getInitialPromptApiAgentConfigsInitialPromptGetQueryOptions } from "./hooks/agent-configs/useGetInitialPromptApiAgentConfigsInitialPromptGet";
+export { useGetInitialPromptApiAgentConfigsInitialPromptGet } from "./hooks/agent-configs/useGetInitialPromptApiAgentConfigsInitialPromptGet";
 export { listAgentConfigsApiAgentConfigsGetQueryKey } from "./hooks/agent-configs/useListAgentConfigsApiAgentConfigsGet";
 export { listAgentConfigsApiAgentConfigsGet } from "./hooks/agent-configs/useListAgentConfigsApiAgentConfigsGet";
 export { listAgentConfigsApiAgentConfigsGetQueryOptions } from "./hooks/agent-configs/useListAgentConfigsApiAgentConfigsGet";
@@ -101,6 +107,7 @@ export { createAgentConfigApiAgentConfigsPost201Schema, createAgentConfigApiAgen
 export { createWebCallApiCallswebcallPost201Schema, createWebCallApiCallswebcallPost422Schema, createWebCallApiCallswebcallPostMutationRequestSchema, createWebCallApiCallswebcallPostMutationResponseSchema } from "./zod/createWebCallApiCallswebcallPostSchema";
 export { getAgentConfigApiAgentConfigsAgentIdGetPathParamsSchema, getAgentConfigApiAgentConfigsAgentIdGet200Schema, getAgentConfigApiAgentConfigsAgentIdGet422Schema, getAgentConfigApiAgentConfigsAgentIdGetQueryResponseSchema } from "./zod/getAgentConfigApiAgentConfigsAgentIdGetSchema";
 export { getCallApiCallsCallIdGetPathParamsSchema, getCallApiCallsCallIdGet200Schema, getCallApiCallsCallIdGet422Schema, getCallApiCallsCallIdGetQueryResponseSchema } from "./zod/getCallApiCallsCallIdGetSchema";
+export { getInitialPromptApiAgentConfigsInitialPromptGet200Schema, getInitialPromptApiAgentConfigsInitialPromptGetQueryResponseSchema } from "./zod/getInitialPromptApiAgentConfigsInitialPromptGetSchema";
 export { healthCheckHealthGet200Schema, healthCheckHealthGetQueryResponseSchema } from "./zod/healthCheckHealthGetSchema";
 export { HTTPValidationErrorSchema } from "./zod/HTTPValidationErrorSchema";
 export { listAgentConfigsApiAgentConfigsGetQueryParamsSchema, listAgentConfigsApiAgentConfigsGet200Schema, listAgentConfigsApiAgentConfigsGet422Schema, listAgentConfigsApiAgentConfigsGetQueryResponseSchema } from "./zod/listAgentConfigsApiAgentConfigsGetSchema";
