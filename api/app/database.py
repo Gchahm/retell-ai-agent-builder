@@ -4,11 +4,11 @@ from app.config import get_settings
 
 settings = get_settings()
 
-# SQLite engine (use check_same_thread=False for FastAPI)
+# PostgreSQL engine for Supabase
 engine = create_engine(
     settings.database_url,
-    connect_args={"check_same_thread": False},
     echo=True,  # Log SQL queries (disable in production)
+    pool_pre_ping=True,  # Verify connections before use
 )
 
 

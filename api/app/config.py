@@ -12,8 +12,8 @@ class Settings(BaseSettings):
         case_sensitive=False,
     )
 
-    # Database
-    database_url: str = "sqlite:///./dev.db"
+    # Database (Supabase PostgreSQL)
+    database_url: str = "postgresql://postgres:password@localhost:5432/postgres"
 
     # API Keys (structure only for MVP)
     retell_api_key: str = "mock_key"

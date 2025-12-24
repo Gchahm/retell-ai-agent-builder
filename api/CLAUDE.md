@@ -33,6 +33,28 @@ uv add package-name
 uv add --dev package-name
 ```
 
+### Database Migrations
+
+```bash
+# Apply all pending migrations
+uv run alembic upgrade head
+
+# Rollback one migration
+uv run alembic downgrade -1
+
+# Rollback to specific revision
+uv run alembic downgrade <revision_id>
+
+# Generate new migration from model changes
+uv run alembic revision --autogenerate -m "description_of_changes"
+
+# Show current migration status
+uv run alembic current
+
+# Show migration history
+uv run alembic history
+```
+
 ### Code Quality
 
 ```bash
@@ -52,6 +74,11 @@ uv run ruff check .
 
 ```
 api/
+├── alembic.ini              # Alembic configuration
+├── migrations/
+│   ├── versions/            # Migration files
+│   ├── env.py               # Alembic environment config (loads models & settings)
+│   └── script.py.mako       # Template for new migrations
 ├── app/
 │   ├── main.py              # FastAPI app entry point, lifespan events, CORS, router registration
 │   ├── config.py            # Pydantic Settings with env var loading
@@ -80,8 +107,7 @@ api/
 │       └── post_processing.py   # Extract structured data from calls
 │
 ├── pyproject.toml           # uv project config, dependencies, ruff config
-├── .env                     # Local environment variables (gitignored)
-└── dev.db                   # SQLite database (gitignored)
+└── .env                     # Local environment variables (gitignored)
 ```
 
 ### Conversation Flow Architecture
@@ -133,7 +159,7 @@ The flow is defined in `app/services/conversation_flow.py`.
 - Emergency handling is a global node that can be triggered from any state
 
 **Database Pattern:**
-SQLModel combines SQLAlchemy ORM with Pydantic validation. Models use `table=True` and can be directly serialized.
+SQLModel combines SQLAlchemy ORM with Pydantic validation. Models use `table=True` and can be directly serialized. The database is hosted on Supabase (PostgreSQL).
 
 **Configuration:**
 Settings are loaded from `.env` using `pydantic-settings`. The `get_settings()` function is cached with `@lru_cache` for performance.
@@ -220,13 +246,17 @@ Data is extracted during the call via flow nodes:
 ## Environment Configuration
 
 ```bash
-DATABASE_URL=sqlite:///./dev.db
+# Supabase PostgreSQL database URL
+DATABASE_URL=postgresql://postgres.[project-ref]:[password]@aws-0-[region].pooler.supabase.com:6543/postgres
+
 RETELL_API_KEY=your_retell_api_key_here
 HOST=0.0.0.0
 PORT=8000
 RELOAD=true
 WEBHOOK_BASE_URL=http://localhost:8000  # Use ngrok URL for local dev
 ```
+
+Get the DATABASE_URL from your Supabase project: Settings > Database > Connection string (URI).
 
 ## Agent Configuration Defaults
 
