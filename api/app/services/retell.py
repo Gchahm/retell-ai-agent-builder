@@ -43,6 +43,21 @@ DEFAULT_BOOSTED_KEYWORDS = [
     "blowout", "breakdown", "accident",
 ]
 DEFAULT_DENOISING_MODE = "noise-cancellation"  # For noisy truck environments
+DEFAULT_STT_MODE = "accurate"  # Better for noisy environments (vs "fast")
+
+# LLM settings
+DEFAULT_MODEL = "gpt-4o-mini"  # Fast and cost-effective
+DEFAULT_MODEL_TEMPERATURE = 0.3  # Slight creativity while staying focused [0-1]
+
+# Post-call analysis prompts
+DEFAULT_ANALYSIS_SUCCESSFUL_PROMPT = (
+    "The call is successful if the agent collected driver status, location, and ETA, "
+    "OR properly handled an emergency with safety confirmation."
+)
+DEFAULT_ANALYSIS_SUMMARY_PROMPT = (
+    "Summarize the driver check-in call including: current status, location, ETA, "
+    "any delays or issues, and whether emergency protocols were triggered."
+)
 
 
 class RetellService:
@@ -50,6 +65,40 @@ class RetellService:
 
     def __init__(self):
         self.client = Retell(api_key=settings.retell_api_key)
+
+    def _create_llm(self, prompt: str):
+        """
+        Create an LLM with the given prompt.
+
+        This is a shared helper used by both create_agent and update_agent.
+        The prompt is automatically combined with system-level instructions.
+
+        Args:
+            prompt: The admin's custom prompt (identity and conversation flow)
+
+        Returns:
+            LLM object from Retell SDK
+        """
+        full_prompt = build_full_prompt(prompt)
+
+        return self.client.llm.create(
+            general_prompt=full_prompt,
+            start_speaker=DEFAULT_START_SPEAKER,
+            model=DEFAULT_MODEL,
+            model_temperature=DEFAULT_MODEL_TEMPERATURE,
+            begin_message=None,  # Let LLM generate dynamic greeting
+            general_tools=[
+                {
+                    "type": "end_call",
+                    "name": "end_call",
+                    "description": (
+                        "Use this tool when the user says goodbye, thanks, or indicates "
+                        "they want to end the call. Also use this when the conversation "
+                        "objective has been completed."
+                    ),
+                },
+            ],
+        )
 
     def create_agent(self, prompt: str, agent_name: str | None = None) -> AgentResponse:
         """
@@ -71,30 +120,8 @@ class RetellService:
         Returns:
             AgentResponse: The created agent from Retell SDK
         """
-        # Combine system prompt prefix with admin's custom prompt
-        full_prompt = build_full_prompt(prompt)
-
-        # Step 1: Create the LLM with the full prompt
-        llm = self.client.llm.create(
-            general_prompt=full_prompt,
-            start_speaker=DEFAULT_START_SPEAKER,
-            # Optional but good defaults
-            model="gpt-4o-mini",  # Fast and cost-effective
-            begin_message=None,  # Let LLM generate dynamic greeting
-            # Add end_call and transfer_call functions
-            general_tools=[
-                {
-                    "type": "end_call",
-                    "name": "end_call",
-                    "description": (
-                        "Use this tool when the user says goodbye, thanks, or indicates "
-                        "they want to end the call. Also use this when the conversation "
-                        "objective has been completed."
-                    ),
-                },
-            ],
-            # Configure structured data extraction for post-call analysis
-        )
+        # Step 1: Create the LLM with the prompt
+        llm = self._create_llm(prompt)
 
         # Step 2: Create the agent using the LLM
         agent = self.client.agent.create(
@@ -125,10 +152,13 @@ class RetellService:
             # Speech recognition
             boosted_keywords=DEFAULT_BOOSTED_KEYWORDS,
             denoising_mode=DEFAULT_DENOISING_MODE,
+            stt_mode=DEFAULT_STT_MODE,
             # Webhook configuration
             webhook_url=settings.webhook_url,
-            # Post-call analysis data extraction (from shared config)
+            # Post-call analysis
             post_call_analysis_data=ALL_ANALYSIS_FIELDS,
+            analysis_successful_prompt=DEFAULT_ANALYSIS_SUCCESSFUL_PROMPT,
+            analysis_summary_prompt=DEFAULT_ANALYSIS_SUMMARY_PROMPT,
         )
 
         return agent
@@ -162,25 +192,7 @@ class RetellService:
 
         # If prompt is provided, create a new LLM and update response_engine
         if prompt is not None:
-            full_prompt = build_full_prompt(prompt)
-            llm = self.client.llm.create(
-                general_prompt=full_prompt,
-                start_speaker=DEFAULT_START_SPEAKER,
-                model="gpt-4o-mini",
-                begin_message=None,
-                # Add end_call and transfer_call functions
-                general_tools=[
-                    {
-                        "type": "end_call",
-                        "name": "end_call",
-                        "description": (
-                            "Use this tool when the user says goodbye, thanks, or indicates "
-                            "they want to end the call. Also use this when the conversation "
-                            "objective has been completed."
-                        ),
-                    },
-                ],
-            )
+            llm = self._create_llm(prompt)
             update_data["response_engine"] = {"type": "retell-llm", "llm_id": llm.llm_id}
 
         # If agent_name is provided, update it
