@@ -1,15 +1,26 @@
-from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, HTTPException, Query
 from retell.types import AgentListResponse, AgentResponse
 
 from app.api.deps import RetellServiceDep
 from app.schemas import AgentCreateRequest, AgentGetResponse, AgentUpdateRequest
-from app.services.retell import RetellService
+from app.services.prompts import get_initial_prompt_template
 
 router = APIRouter(prefix="/api/agent-configs", tags=["agent-configs"])
 
 
+@router.get("/initial-prompt")
+def get_initial_prompt() -> dict[str, str]:
+    """
+    Get the initial prompt template for creating new agents.
+
+    Returns the portion of the system prompt that comes after the style
+    guardrails, which can be used as a starting point for custom prompts.
+
+    Returns:
+        dict with "prompt" key containing the initial template
+    """
+    return {"prompt": get_initial_prompt_template()}
 
 
 @router.post("", response_model=AgentResponse, status_code=201)

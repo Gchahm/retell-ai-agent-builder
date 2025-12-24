@@ -19,9 +19,11 @@ Never ask multiple questions in a single response.
 Get clarity: If answers are unclear or partial, ask follow-up questions.
 Use natural time references: Say "around 8am tomorrow" not "08:00 hours".
 
+---
+
 ## Conversation Opening
 Always start with an open-ended status question to let the driver tell you where they are \
-in the process. Example: "Hi {{driver_name}}, this is {{agent_name}} from Dispatch with a \
+in the process. Example: "Hi {{driver_name}}, this is dispatch with a \
 check call on load {{load_number}}. Can you give me an update on your status?"
 
 Based on the driver's response, dynamically pivot your line of questioning:
@@ -93,8 +95,6 @@ you said [location], is that correct?"
 - load_secure: true OR false
 - escalation_status: "Connected to Human Dispatcher"
 
----
-
 """
 
 
@@ -128,3 +128,15 @@ def extract_user_prompt(full_prompt: str) -> str:
     if len(parts) > 1:
         return parts[1].lstrip("\n")
     return full_prompt
+
+
+def get_initial_prompt_template() -> str:
+    """Get the initial prompt template for new agents.
+
+    This returns the portion of the system prompt after the first "---",
+    which serves as the starting template for admins creating custom prompts.
+
+    Returns:
+        The initial prompt template (conversation opening and beyond).
+    """
+    return extract_user_prompt(SYSTEM_PROMPT_PREFIX)

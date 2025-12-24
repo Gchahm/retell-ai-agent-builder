@@ -26,9 +26,9 @@ def create_web_call(request: CallCreate, retell_service: RetellServiceDep, sessi
     try:
         # Build dynamic variables from request fields
         dynamic_variables = {
-            "DRIVER_NAME": request.driver_name,
-            "PHONE_NUMBER": request.phone_number,
-            "LOAD_NUMBER": request.load_number,
+            "driver_name": request.driver_name,
+            "phone_number": request.phone_number,
+            "load_number": request.load_number,
         }
 
         retell_call = retell_service.create_web_call(
