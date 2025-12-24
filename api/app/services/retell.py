@@ -2,6 +2,7 @@ from retell import Retell
 from retell.types import AgentListResponse, AgentResponse
 
 from app.config import get_settings
+from app.services.call_analysis import ALL_ANALYSIS_FIELDS
 from app.services.prompts import build_full_prompt, extract_user_prompt
 
 settings = get_settings()
@@ -126,81 +127,8 @@ class RetellService:
             denoising_mode=DEFAULT_DENOISING_MODE,
             # Webhook configuration
             webhook_url=settings.webhook_url,
-            # Post-call analysis data extraction for logistics tracking
-            post_call_analysis_data=[
-                # Standard check-in fields
-                {
-                    "type": "string",
-                    "name": "call_outcome",
-                    "description": "The type of call outcome.",
-                    "examples": ["In-Transit Update", "Arrival Confirmation", "Emergency"],
-                },
-                {
-                    "type": "string",
-                    "name": "driver_status",
-                    "description": "The current status of the driver.",
-                    "examples": ["Driving", "Delayed", "Arrived", "Unloading"],
-                },
-                {
-                    "type": "string",
-                    "name": "current_location",
-                    "description": "The driver's current location as described.",
-                    "examples": ["I-10 near Indio, CA", "Truck stop in Barstow"],
-                },
-                {
-                    "type": "string",
-                    "name": "eta",
-                    "description": "The estimated time of arrival provided by the driver.",
-                    "examples": ["Tomorrow, 8:00 AM", "In 2 hours", "3:30 PM today"],
-                },
-                {
-                    "type": "string",
-                    "name": "delay_reason",
-                    "description": "The reason for any delay, or None if no delay.",
-                    "examples": ["Heavy Traffic", "Weather", "Mechanical Issue", "None"],
-                },
-                {
-                    "type": "string",
-                    "name": "unloading_status",
-                    "description": "Unloading status at destination, or N/A if not applicable.",
-                    "examples": ["In Door 42", "Waiting for Lumper", "Detention", "N/A"],
-                },
-                {
-                    "type": "boolean",
-                    "name": "pod_reminder_acknowledged",
-                    "description": "Whether the driver acknowledged the POD reminder.",
-                },
-                # Emergency fields
-                {
-                    "type": "string",
-                    "name": "emergency_type",
-                    "description": "Type of emergency if one occurred, or None.",
-                    "examples": ["Accident", "Breakdown", "Medical", "None"],
-                },
-                {
-                    "type": "string",
-                    "name": "safety_status",
-                    "description": "Driver safety confirmation in emergency.",
-                    "examples": ["Everyone is safe", "Injuries reported", "N/A"],
-                },
-                {
-                    "type": "string",
-                    "name": "emergency_location",
-                    "description": "Location of emergency incident.",
-                    "examples": ["I-15 North, Mile Marker 123", "N/A"],
-                },
-                {
-                    "type": "boolean",
-                    "name": "load_secure",
-                    "description": "Whether the load is secure after incident.",
-                },
-                {
-                    "type": "string",
-                    "name": "escalation_status",
-                    "description": "Whether call was escalated to human dispatcher.",
-                    "examples": ["Connected to Human Dispatcher", "No Escalation"],
-                },
-            ],
+            # Post-call analysis data extraction (from shared config)
+            post_call_analysis_data=ALL_ANALYSIS_FIELDS,
         )
 
         return agent
