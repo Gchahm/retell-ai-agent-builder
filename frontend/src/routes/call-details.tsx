@@ -15,6 +15,17 @@ export function CallDetails() {
         {
             query: {
                 enabled: !!callId,
+                // Poll every 5 seconds while call status is pending
+                refetchInterval: (query) => {
+                    const callData = query.state.data
+                    if (!callData) return false
+
+                    // Check if status is pending or in-progress
+                    const status = callData.status?.toLowerCase()
+                    const isPendingStatus = status === 'in-progress';
+
+                    return isPendingStatus ? 5000 : false
+                },
             },
         }
     )

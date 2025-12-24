@@ -27,17 +27,18 @@ function formatDate(dateString: string) {
     return new Date(dateString).toLocaleString()
 }
 
-function renderStructuredDataValue(value: any): string {
-    if (value === null || value === undefined) {
-        return 'N/A'
-    }
+function renderStructuredDataValue(value: unknown): string {
     if (typeof value === 'boolean') {
         return value ? 'Yes' : 'No'
     }
-    if (typeof value === 'object') {
+    if (typeof value === 'object' && value !== null) {
         return JSON.stringify(value, null, 2)
     }
     return String(value)
+}
+
+function isNotEmpty(value: unknown): boolean {
+    return value !== null && value !== undefined && value !== ''
 }
 
 function formatKey(key: string): string {
@@ -89,22 +90,24 @@ export function CallDetailsCard({ call }: CallDetailsCardProps) {
                     <div className="border-t pt-4">
                         <h3 className="text-sm font-semibold mb-3">Structured Data</h3>
                         <div className="space-y-3">
-                            {Object.entries(call.structured_data!).map(([key, value]) => (
-                                <div key={key} className="bg-muted rounded-md p-3">
-                                    <p className="text-sm font-medium text-muted-foreground mb-1">
-                                        {formatKey(key)}
-                                    </p>
-                                    <div className="text-sm">
-                                        {typeof value === 'object' && value !== null ? (
-                                            <pre className="whitespace-pre-wrap font-mono text-xs bg-background rounded p-2 overflow-x-auto">
-                                                {renderStructuredDataValue(value)}
-                                            </pre>
-                                        ) : (
-                                            <p>{renderStructuredDataValue(value)}</p>
-                                        )}
+                            {Object.entries(call.structured_data!)
+                                .filter(([, value]) => isNotEmpty(value))
+                                .map(([key, value]) => (
+                                    <div key={key} className="bg-muted rounded-md p-3">
+                                        <p className="text-sm font-medium text-muted-foreground mb-1">
+                                            {formatKey(key)}
+                                        </p>
+                                        <div className="text-sm">
+                                            {typeof value === 'object' && value !== null ? (
+                                                <pre className="whitespace-pre-wrap font-mono text-xs bg-background rounded p-2 overflow-x-auto">
+                                                    {renderStructuredDataValue(value)}
+                                                </pre>
+                                            ) : (
+                                                <p>{renderStructuredDataValue(value)}</p>
+                                            )}
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                ))}
                         </div>
                     </div>
                 )}
