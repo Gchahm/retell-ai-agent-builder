@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from sqlmodel import select
 
-from app.api.deps import RetellServiceDep, SessionDep
+from app.api.deps import CurrentUserDep, RetellServiceDep, SessionDep
 from app.models import Call, CallResult
 from app.schemas import CallCreate, CallResponse
 
@@ -9,7 +9,12 @@ router = APIRouter(prefix="/api/calls", tags=["calls"])
 
 
 @router.post("webcall/", status_code=201)
-def create_web_call(request: CallCreate, retell_service: RetellServiceDep, session: SessionDep):
+def create_web_call(
+    request: CallCreate,
+    retell_service: RetellServiceDep,
+    session: SessionDep,
+    user: CurrentUserDep,
+):
     """
     Create a web call via Retell AI.
 
@@ -56,7 +61,7 @@ def create_web_call(request: CallCreate, retell_service: RetellServiceDep, sessi
 
 
 @router.get("", response_model=list[CallResponse])
-def list_calls(session: SessionDep, skip: int = 0, limit: int = 100):
+def list_calls(session: SessionDep, user: CurrentUserDep, skip: int = 0, limit: int = 100):
     """List all calls."""
     statement = select(Call).offset(skip).limit(limit)
     calls = session.exec(statement).all()
@@ -64,7 +69,7 @@ def list_calls(session: SessionDep, skip: int = 0, limit: int = 100):
 
 
 @router.get("/{call_id}", response_model=CallResponse)
-def get_call(call_id: str, session: SessionDep):
+def get_call(call_id: str, session: SessionDep, user: CurrentUserDep):
     """
     Get a specific call with its transcript and structured data.
 

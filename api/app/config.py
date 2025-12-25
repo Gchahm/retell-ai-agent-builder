@@ -23,6 +23,11 @@ class Settings(BaseSettings):
     host: str = "0.0.0.0"
     port: int = 8000
     reload: bool = True
+    # Supabase (add these)
+
+    supabase_url: str = "https://your-project.supabase.co"
+    supabase_anon_key: str = "your-anon-key"
+    supabase_service_key: str = "your-service-key"  # For admin operations
 
     # Webhook
     webhook_base_url: str = "http://localhost:8000"

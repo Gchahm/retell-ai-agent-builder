@@ -2,7 +2,7 @@
 from fastapi import APIRouter, HTTPException, Query
 from retell.types import AgentListResponse, AgentResponse
 
-from app.api.deps import RetellServiceDep
+from app.api.deps import CurrentUserDep, RetellServiceDep
 from app.schemas import AgentCreateRequest, AgentGetResponse, AgentUpdateRequest
 from app.services.prompts import get_initial_prompt_template
 
@@ -10,7 +10,7 @@ router = APIRouter(prefix="/api/agent-configs", tags=["agent-configs"])
 
 
 @router.get("/initial-prompt")
-def get_initial_prompt() -> dict[str, str]:
+def get_initial_prompt(user: CurrentUserDep) -> dict[str, str]:
     """
     Get the initial prompt template for creating new agents.
 
@@ -24,7 +24,9 @@ def get_initial_prompt() -> dict[str, str]:
 
 
 @router.post("", response_model=AgentResponse, status_code=201)
-def create_agent_config(request: AgentCreateRequest, retell_service: RetellServiceDep):
+def create_agent_config(
+    request: AgentCreateRequest, retell_service: RetellServiceDep, user: CurrentUserDep
+):
     """
     Create a new agent configuration in Retell AI.
 
@@ -49,6 +51,7 @@ def create_agent_config(request: AgentCreateRequest, retell_service: RetellServi
 @router.get("", response_model=AgentListResponse)
 def list_agent_configs(
     retell_service: RetellServiceDep,
+    user: CurrentUserDep,
     limit: int = Query(default=1000, ge=1, le=1000),
     pagination_key: str | None = Query(default=None),
 ):
@@ -71,7 +74,7 @@ def list_agent_configs(
 
 
 @router.get("/{agent_id}", response_model=AgentGetResponse)
-def get_agent_config(agent_id: str, retell_service: RetellServiceDep):
+def get_agent_config(agent_id: str, retell_service: RetellServiceDep, user: CurrentUserDep):
     """
     Get a specific agent configuration from Retell AI.
 
@@ -93,7 +96,10 @@ def get_agent_config(agent_id: str, retell_service: RetellServiceDep):
 
 @router.patch("/{agent_id}", response_model=AgentResponse)
 def update_agent_config(
-    agent_id: str, request: AgentUpdateRequest, retell_service: RetellServiceDep
+    agent_id: str,
+    request: AgentUpdateRequest,
+    retell_service: RetellServiceDep,
+    user: CurrentUserDep,
 ):
     """
     Update an existing agent configuration in Retell AI.
