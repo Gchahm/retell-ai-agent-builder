@@ -289,19 +289,3 @@ class RetellService:
 
         return self.client.call.create_web_call(**params)
 
-    def create_call(self, phone_number: str, agent_config: dict):
-        """
-        Create a phone call via Retell AI.
-
-        TODO: Implement using retell-sdk
-        See: https://github.com/RetellAI/retell-python-sdk/blob/main/api.md
-        """
-        pass
-
-    def get_call_details(self, call_id: str):
-        """
-        Get call details from Retell AI.
-
-        TODO: Implement using retell-sdk
-        """
-        pass

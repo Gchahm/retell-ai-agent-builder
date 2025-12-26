@@ -6,17 +6,23 @@ from typing import Literal
 
 from fastapi import APIRouter, BackgroundTasks, HTTPException, Request
 from pydantic import BaseModel
+from retell.lib.webhook_auth import verify
 from sqlmodel import select
 
-from app.api.deps import SessionDep, PostProcessingServiceDep
+from app.api.deps import PostProcessingServiceDep, SessionDep, RetellServiceDep
+from app.config import get_settings
 from app.models import Call, CallResult
 
 router = APIRouter(prefix="/api/webhooks", tags=["webhooks"])
 logger = logging.getLogger(__name__)
+settings = get_settings()
 
 # Directory for storing webhook payloads
 WEBHOOK_LOGS_DIR = Path("webhook_logs")
 WEBHOOK_LOGS_DIR.mkdir(exist_ok=True)
+
+# Optional: Retell's webhook IP for additional allowlisting
+# RETELL_WEBHOOK_IP = "100.20.5.228"
 
 
 class WebhookPayload(BaseModel):
@@ -43,13 +49,19 @@ async def retell_webhook(
 
     Note: Must respond within 10 seconds. Processing happens in background.
     """
-    # TODO: Implement webhook signature verification
-    # signature = request.headers.get("x-retell-signature")
-    # if not verify_signature(await request.body(), signature):
-    #     raise HTTPException(status_code=401, detail="Invalid signature")
+    post_data = await request.json()
+    valid_signature = verify(
+        json.dumps(post_data, separators=(",", ":"), ensure_ascii=False),
+        settings.retell_api_key,
+        str(request.headers.get("X-Retell-Signature")),
+    )
+
+    if not valid_signature:
+        logger.log(logging.WARNING, "Invalid signature received from Retell")
+        raise HTTPException(status_code=401, detail="Unauthorized")
 
     try:
-        payload = WebhookPayload.model_validate(await request.json())
+        payload = WebhookPayload.model_validate(post_data)
     except Exception as e:
         logger.error(f"Invalid webhook payload: {e}")
         raise HTTPException(status_code=400, detail="Invalid payload") from e
@@ -61,7 +73,9 @@ async def retell_webhook(
     return None
 
 
-def process_webhook(payload: WebhookPayload, session: SessionDep, post_processing_service: PostProcessingServiceDep):
+def process_webhook(
+    payload: WebhookPayload, session: SessionDep, post_processing_service: PostProcessingServiceDep
+):
     """
     Process webhook event in background.
 

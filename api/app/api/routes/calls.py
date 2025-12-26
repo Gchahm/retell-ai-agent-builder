@@ -13,7 +13,6 @@ def create_web_call(
     request: CallCreate,
     retell_service: RetellServiceDep,
     session: SessionDep,
-    user: CurrentUserDep,
 ):
     """
     Create a web call via Retell AI.
