@@ -5,10 +5,24 @@ FastAPI backend for managing AI voice agent calls for logistics scenarios using 
 ## Quick Start
 
 ```bash
-# Install dependencies
+# 1. Install dependencies
 uv sync
 
-# Run development server
+# 2. Start Supabase locally
+supabase start
+
+# 3. Configure environment
+cp .env.example .env
+```
+
+ Edit .env with values from `supabase status`
+
+```bash
+
+# 4. Run database migrations
+uv run alembic upgrade head
+
+# 5. Run development server
 uv run fastapi dev app/main.py
 ```
 
@@ -20,6 +34,8 @@ Visit http://localhost:8000/docs for interactive API documentation.
 
 - **Python 3.13+**
 - **uv** package manager ([install guide](https://docs.astral.sh/uv/getting-started/installation/))
+- **Supabase CLI** ([install guide](https://supabase.com/docs/guides/local-development/cli/getting-started))
+- **Docker** (required for local Supabase)
 
 ### Installing uv
 
@@ -32,6 +48,23 @@ powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
 
 # Verify installation
 uv --version
+```
+
+### Installing Supabase CLI
+
+```bash
+# macOS
+brew install supabase/tap/supabase
+
+# Windows (scoop)
+scoop bucket add supabase https://github.com/supabase/scoop-bucket.git
+scoop install supabase
+
+# npm (cross-platform)
+npm install -g supabase
+
+# Verify installation
+supabase --version
 ```
 
 ---
@@ -55,43 +88,69 @@ uv sync
 # - Installs all packages from pyproject.toml
 ```
 
-### 3. Configure Environment
+### 3. Start Supabase Locally
+
+```bash
+# Start local Supabase (requires Docker running)
+supabase start
+
+# This starts:
+# - PostgreSQL on port 54322
+# - Supabase API on port 54321
+# - Auth, Storage, and other services
+```
+
+After starting, you'll see output with your local credentials:
+
+```
+API URL: http://127.0.0.1:54321
+anon key: eyJ...
+service_role key: eyJ...
+DB URL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+```
+
+### 4. Configure Environment
 
 ```bash
 # Copy example environment file
 cp .env.example .env
-
-# Edit .env with your settings (optional for MVP)
-# nano .env
 ```
 
-Environment variables:
+Edit `.env` with values from `supabase status`:
 
-| Variable | Description | Default |
+| Variable | Description | Example |
 |----------|-------------|---------|
-| `DATABASE_URL` | SQLite database path | `sqlite:///./dev.db` |
-| `RETELL_API_KEY` | Retell AI API key | `your_retell_api_key_here` |
-| `OPENAI_API_KEY` | OpenAI API key | `your_openai_api_key_here` |
+| `DATABASE_URL` | PostgreSQL connection string | `postgresql://postgres:postgres@127.0.0.1:54322/postgres` |
+| `SUPABASE_URL` | Supabase API URL | `http://127.0.0.1:54321` |
+| `SUPABASE_ANON_KEY` | Supabase anonymous key | From `supabase status` |
+| `SUPABASE_SERVICE_KEY` | Supabase service role key | From `supabase status` |
+| `RETELL_API_KEY` | Retell AI API key | From [Retell Dashboard](https://dashboard.retellai.com) |
+| `WEBHOOK_BASE_URL` | Webhook URL for Retell | Use ngrok URL for local dev |
 | `HOST` | Server host | `0.0.0.0` |
 | `PORT` | Server port | `8000` |
-| `RELOAD` | Auto-reload on changes | `true` |
 
-### 4. Run Development Server
+### 5. Run Database Migrations
 
 ```bash
-# Option 1: Using fastapi CLI (recommended for dev)
-uv run fastapi dev app/main.py
+# Apply all pending migrations
+uv run alembic upgrade head
 
-# Option 2: Using uvicorn directly
-uv run uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-
-# Option 3: Activate venv first (if you prefer)
-source .venv/bin/activate
-fastapi dev app/main.py
+# Verify migration status
+uv run alembic current
 ```
 
+### 6. Run Development Server
+
 ```bash
-ngrok http http://localhost:8000
+# Using fastapi CLI (recommended)
+uv run fastapi dev app/main.py
+```
+
+For webhook testing, expose your local server with ngrok:
+
+```bash
+ngrok http 8000
+# Update WEBHOOK_BASE_URL in .env with the ngrok URL
 ```
 
 The server will start at:
@@ -274,85 +333,101 @@ http GET localhost:8000/api/agent-configs
 
 ## Database
 
-### SQLite (Default)
+### Supabase (PostgreSQL)
 
-The application uses SQLite by default for local development. The database file (`dev.db`) is created automatically when you first run the server.
+The application uses Supabase (PostgreSQL) for the database. For local development, use the Supabase CLI which runs PostgreSQL in Docker.
 
-#### Database Location
+#### Managing Supabase
+
+```bash
+# Start Supabase services
+supabase start
+
+# Stop Supabase services
+supabase stop
+
+# View status and credentials
+supabase status
+
+# Reset database (clears all data)
+supabase db reset
 ```
-api/dev.db
+
+#### Database Migrations with Alembic
+
+Migrations are managed with Alembic. Migration files are stored in `migrations/versions/`.
+
+```bash
+# Apply all pending migrations
+uv run alembic upgrade head
+
+# Rollback one migration
+uv run alembic downgrade -1
+
+# Rollback to specific revision
+uv run alembic downgrade <revision_id>
+
+# Show current migration status
+uv run alembic current
+
+# Show migration history
+uv run alembic history
+
+# Generate new migration from model changes
+uv run alembic revision --autogenerate -m "description_of_changes"
 ```
 
 #### View Database (Optional)
 
+Access the database via Supabase Studio at http://127.0.0.1:54323 or use psql:
+
 ```bash
-# Install sqlite3 CLI (usually pre-installed on macOS/Linux)
-sqlite3 dev.db
+# Connect with psql
+psql postgresql://postgres:postgres@127.0.0.1:54322/postgres
 
 # View tables
-.tables
+\dt
 
 # View schema
-.schema agent_configurations
+\d calls
 
 # Query data
-SELECT * FROM agent_configurations;
+SELECT * FROM calls;
 
 # Exit
-.quit
+\q
 ```
 
 #### Reset Database
 
 ```bash
-# Delete database file
-rm dev.db
+# Option 1: Reset via Supabase (recommended)
+supabase db reset
 
-# Restart server (will recreate tables)
-uv run fastapi dev app/main.py
+# Option 2: Rollback all migrations and re-apply
+uv run alembic downgrade base
+uv run alembic upgrade head
 ```
 
-### Switching to PostgreSQL (Docker)
+### Using Cloud Supabase
 
-If you prefer PostgreSQL:
+For production or if you prefer not to run Supabase locally:
 
-1. **Create `docker-compose.yml`** in the `api/` directory:
-
-```yaml
-version: '3.8'
-
-services:
-  postgres:
-    image: postgres:16-alpine
-    environment:
-      POSTGRES_DB: ai_voice_agent
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-volumes:
-  postgres_data:
-```
-
-2. **Update `.env`**:
+1. Create a project at [supabase.com](https://supabase.com)
+2. Get your credentials from Settings > API
+3. Update `.env`:
 
 ```bash
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/ai_voice_agent
+DATABASE_URL=postgresql://postgres.[project-ref]:[password]@aws-0-[region].pooler.supabase.com:6543/postgres
+SUPABASE_URL=https://[project-ref].supabase.co
+SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_KEY=your-service-key
 ```
 
-3. **Install PostgreSQL driver**:
+4. Run migrations against the cloud database:
 
 ```bash
-uv add asyncpg
-```
-
-4. **Start PostgreSQL**:
-
-```bash
-docker-compose up -d
+uv run alembic upgrade head
 ```
 
 ---
@@ -507,14 +582,53 @@ cd api/
 uv run fastapi dev app/main.py
 ```
 
-### Database errors
+### Database connection errors
 
-**Error**: `no such table: agent_configurations`
+**Error**: `connection refused` or `could not connect to server`
 
-**Solution**: Delete and recreate database:
+**Solution**: Ensure Supabase is running:
 ```bash
-rm dev.db
-uv run fastapi dev app/main.py
+# Check if Supabase is running
+supabase status
+
+# Start Supabase if not running
+supabase start
+```
+
+### Missing tables
+
+**Error**: `relation "calls" does not exist`
+
+**Solution**: Run database migrations:
+```bash
+uv run alembic upgrade head
+```
+
+### Migration errors
+
+**Error**: `Target database is not up to date`
+
+**Solution**: Check and apply pending migrations:
+```bash
+# Check current status
+uv run alembic current
+
+# Apply all pending migrations
+uv run alembic upgrade head
+```
+
+### Supabase won't start
+
+**Error**: `Cannot connect to the Docker daemon`
+
+**Solution**: Ensure Docker is running:
+```bash
+# Start Docker Desktop (macOS/Windows)
+# Or start Docker daemon (Linux)
+sudo systemctl start docker
+
+# Then retry
+supabase start
 ```
 
 ### uv command not found
@@ -542,9 +656,13 @@ uv sync
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `DATABASE_URL` | No | `sqlite:///./dev.db` | Database connection string |
-| `RETELL_API_KEY` | For production | `mock_key` | Retell AI API key |
-| `OPENAI_API_KEY` | For production | `mock_key` | OpenAI API key (for post-processing) |
+| `DATABASE_URL` | Yes | - | PostgreSQL connection string (from Supabase) |
+| `SUPABASE_URL` | Yes | - | Supabase API URL |
+| `SUPABASE_ANON_KEY` | Yes | - | Supabase anonymous key (for client auth) |
+| `SUPABASE_SERVICE_KEY` | Yes | - | Supabase service role key (for admin ops) |
+| `RETELL_API_KEY` | Yes | - | Retell AI API key |
+| `WEBHOOK_BASE_URL` | Yes | `http://localhost:8000` | Base URL for Retell webhooks |
+| `DISPATCH_PHONE_NUMBER` | No | `+1234567890` | Phone for emergency transfers |
 | `HOST` | No | `0.0.0.0` | Server bind host |
 | `PORT` | No | `8000` | Server port |
 | `RELOAD` | No | `true` | Auto-reload on code changes |

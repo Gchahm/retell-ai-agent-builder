@@ -32,9 +32,6 @@ class Settings(BaseSettings):
     # Webhook
     webhook_base_url: str = "http://localhost:8000"
 
-    # Dispatch phone number for emergency call transfers
-    dispatch_phone_number: str = "+1234567890"
-
     @property
     def webhook_url(self) -> str:
         """Full webhook URL for Retell."""
