@@ -6,7 +6,8 @@ import {configureAxios, queryClient} from './lib/query-client'
 import App from './App'
 import './index.css'
 
-configureAxios({baseURL: 'http://localhost:8000'})
+const baseURL = import.meta.env.VITE_API_URL
+configureAxios({baseURL})
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
