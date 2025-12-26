@@ -1,6 +1,8 @@
+import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router'
+import { useQueryClient } from '@tanstack/react-query'
 import { PageLayout } from '@/components/layout/page-layout.tsx'
-import { useGetCallApiCallsCallIdGet } from '@/lib/api'
+import { useGetCallApiCallsCallIdGet, listCallsApiCallsGetQueryKey } from '@/lib/api'
 import { Button } from '@/components/ui/button'
 import { ArrowLeft } from 'lucide-react'
 import { CallDetailsCard } from '@/components/call-details-card'
@@ -8,7 +10,13 @@ import { TranscriptCard } from '@/components/transcript-card'
 
 export function CallDetails() {
     const navigate = useNavigate()
+    const queryClient = useQueryClient()
     const { agentId, callId } = useParams<{ agentId: string; callId: string }>()
+
+    // Invalidate calls list on mount so CallHistory shows updated data
+    useEffect(() => {
+        queryClient.invalidateQueries({ queryKey: listCallsApiCallsGetQueryKey() })
+    }, [queryClient])
 
     const { data, isPending, error } = useGetCallApiCallsCallIdGet(
         callId!,

@@ -1,21 +1,16 @@
-import { useEffect, useRef, useState } from 'react'
-import { useNavigate } from 'react-router'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card'
-import { useRetellWebCall } from '@/hooks/useRetellWebCall'
-import { Phone, PhoneOff, Loader2 } from 'lucide-react'
-import { useCreateWebCallApiCallswebcallPost } from '@/lib/api'
-import { callCreateSchema } from '@/lib/api/zod/callCreateSchema'
+import { useEffect, useRef, useState} from 'react'
+import {useNavigate} from 'react-router'
+import {useForm} from 'react-hook-form'
+import {zodResolver} from '@hookform/resolvers/zod'
+import {z} from 'zod'
+import {Button} from '@/components/ui/button'
+import {Input} from '@/components/ui/input'
+import {Label} from '@/components/ui/label'
+import {Card, CardContent, CardHeader, CardTitle,} from '@/components/ui/card'
+import {useRetellWebCall} from '@/hooks/useRetellWebCall'
+import {Loader2, Phone, PhoneOff} from 'lucide-react'
+import {useCreateWebCallApiCallswebcallPost} from '@/lib/api'
+import {callCreateSchema} from '@/lib/api/zod/callCreateSchema'
 
 interface TriggerCallFormProps {
     agentId: string
@@ -69,10 +64,6 @@ export function TriggerCallForm({ agentId }: TriggerCallFormProps) {
         } catch (err) {
             console.error('Failed to create web call:', err)
         }
-    }
-
-    const handleEndCall = () => {
-        stopCall()
     }
 
     const isConnecting = callState === 'connecting'
@@ -140,7 +131,10 @@ export function TriggerCallForm({ agentId }: TriggerCallFormProps) {
                         <Button
                             type="button"
                             variant="destructive"
-                            onClick={handleEndCall}
+                            onClick={(e) => {
+                                e.preventDefault()
+                                stopCall()
+                            }}
                             className="w-full"
                         >
                             <PhoneOff className="mr-2 h-4 w-4" />
