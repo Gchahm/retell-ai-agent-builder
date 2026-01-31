@@ -4,7 +4,9 @@ A full-stack web application for creating, managing, and testing AI-powered voic
 
 ## Demo
 
-[![Watch the demo](https://cdn.loom.com/sessions/thumbnails/83dfed03e6174419b61306d875f0201b-ec7bf6b5a93fb0d9-full-play.gif)](https://www.loom.com/share/83dfed03e6174419b61306d875f0201b)
+<a href="https://www.loom.com/share/83dfed03e6174419b61306d875f0201b">
+  <img src="https://cdn.loom.com/sessions/thumbnails/83dfed03e6174419b61306d875f0201b-b2ebc9f8048ae167.jpg" width="600" alt="Watch the demo" />
+</a>
 
 ## Overview
 
