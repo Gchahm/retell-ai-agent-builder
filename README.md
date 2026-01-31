@@ -2,6 +2,10 @@
 
 A full-stack web application for creating, managing, and testing AI-powered voice agents for logistics operations. Built to automate driver check-ins, load tracking, and emergency handling through conversational voice calls.
 
+## Demo
+
+[![Watch the demo](https://cdn.loom.com/sessions/thumbnails/83dfed03e6174419b61306d875f0201b-ec7bf6b5a93fb0d9-full-play.gif)](https://www.loom.com/share/83dfed03e6174419b61306d875f0201b)
+
 ## Overview
 
 This project demonstrates a production-ready integration with [Retell AI](https://www.retellai.com/) to build conversational voice agents. The platform enables logistics companies to automate routine driver communications while maintaining the ability to handle emergencies and edge cases gracefully.
